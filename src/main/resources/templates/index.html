@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{commons::head(~{::title})}">
+    <title>欢迎页-花柿子网页监控</title>
+</head>
+
+<body>
+<nav th:replace="~{commons::headbar}"></nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="jumbotron">
+            <h1>欢迎，尊敬的用户!</h1>
+            <p>花柿子网页监控是一款轻量便捷的网页监控工具，能从不同站点监控您的web网站的可用性、时延、组件完整性等</p>
+            <p><a class="btn btn-primary btn-lg" th:href="@{/task/list}" role="button">免费试用</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dingjiangying.webmonitor.dao.TaskMapper">
+
+    <resultMap id="taskMap" type="TaskPo">
+        <id property="taskId" column="task_id"/>
+        <result property="taskName" column="task_name"/>
+        <result property="cityList" column="city_list"/>
+        <result property="createTime" column="create_time"/>
+        <result property="hasHuddled" column="has_huddled"/>
+        <result property="userId" column="user_id"/>
+        <result property="alertId" column="alert_id"/>
+    </resultMap>
+
+    <select id="getTasks" resultMap="taskMap">
+        select * from task;
+    </select>
+
+    <select id="getTask" resultMap="taskMap" parameterType="String">
+        select * from task where task_id = #{id};
+    </select>
+
+</mapper>
