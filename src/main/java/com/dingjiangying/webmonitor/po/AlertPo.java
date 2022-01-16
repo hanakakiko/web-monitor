@@ -18,6 +18,5 @@ public class AlertPo {
     private Timestamp createTime;
     private Integer hasHuddled;
     private String userId;
-    private String alertId;
 
 }
