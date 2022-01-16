@@ -5,8 +5,7 @@
 </head>
 
 <body>
-<nav th:replace="~{commons.html::headbar}"></nav>
-
+<nav th:replace="~{commons::headbar(${currentUser})}"></nav>
 <div class="jumbotron">
     <div class="container">
         <form class="form-horizontal" th:action="@{/login}" method="post">

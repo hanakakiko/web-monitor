@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * https://juejin.cn/post/6854573217940668430讲得不错
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -31,21 +34,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("用到一！！");
         httpSecurity.authorizeRequests()
                 .antMatchers("/js/**","/css/**","/images/*","/fonts/**","/**/*.png","/**/*.jpg").permitAll()
-                .antMatchers("/","/login","/task").permitAll()
+                .antMatchers("/","/login","/register","/task").permitAll()
                 .antMatchers("/task/list","/druid/*").permitAll()
-                .antMatchers("/user/register","/user/test").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                .usernameParameter("username").passwordParameter("password")
                 .loginPage("/login")
                 .failureUrl("/login?error")
                 .defaultSuccessUrl("/task/list")
-                .permitAll()
                 .and()
                 .rememberMe().rememberMeParameter("remember-me") //其实默认就是remember-me，这里可以指定更换
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout")  //退出登录
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")  //退出登录
                 .permitAll()
                 .and()
                 .csrf().disable();
