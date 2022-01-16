@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserPo user = userService.selectUser(username);
-        System.out.println(user.getUsername());
+        System.out.println(user.getUserName());
         if (user == null){
             throw new UsernameNotFoundException("用户名不存在!");
         }
@@ -34,7 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 //            authorities.add(new SimpleGrantedAuthority(role.getName()));
 //        }
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        System.out.println(user.getUsername()+authorities.toString());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
+        System.out.println(user.getUserName()+authorities.toString());
+        return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getUserPassword(),
+                authorities);
     }
 }

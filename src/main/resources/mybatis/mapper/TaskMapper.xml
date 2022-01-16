@@ -8,6 +8,7 @@
     <resultMap id="taskMap" type="TaskPo">
         <id property="taskId" column="task_id"/>
         <result property="taskName" column="task_name"/>
+        <result property="taskUrl" column="task_url"/>
         <result property="cityList" column="city_list"/>
         <result property="createTime" column="create_time"/>
         <result property="hasHuddled" column="has_huddled"/>

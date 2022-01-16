@@ -31,10 +31,10 @@
                     <tbody>
                     <tr th:each="task:${tasks}">
                         <td th:text="${task.getTaskId()}">1,001</td>
-                        <td th:text="${task.getTaskId()}"></td>
-                        <td th:text="${task.getTaskId()}"></td>
-                        <td th:text="${task.getTaskId()}"></td>
-                        <td th:text="${task.getTaskId()}"></td>
+                        <td th:text="${task.getTaskName()}"></td>
+                        <td th:text="${task.getTaskUrl()}"></td>
+                        <td th:text="${task.getCityList()}"></td>
+                        <td th:text="${task.getTaskUrl()}"></td>
                     </tr>
                     </tbody>
                 </table>

@@ -27,7 +27,8 @@ public class DruidConfigurer {
 
     @Bean
     public ServletRegistrationBean statViewServlet(){
-        ServletRegistrationBean<StatViewServlet> statViewServletServletRegistrationBean = new ServletRegistrationBean<>(new StatViewServlet(),"/druid/*");
+        ServletRegistrationBean<StatViewServlet> statViewServletServletRegistrationBean =
+                new ServletRegistrationBean<>(new StatViewServlet(),"/druid/*");
 
         Map<String,String> initParameters = new HashMap<>();
 

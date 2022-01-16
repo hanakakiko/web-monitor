@@ -4,6 +4,7 @@ import com.dingjiangying.webmonitor.po.UserPo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
@@ -16,6 +17,6 @@ public interface UserMapper {
 
     UserPo getUserByName(String Username);
 
-    Long insertUser(UserPo user);
+    Long insertUser(@Param("po") UserPo po);
 
 }

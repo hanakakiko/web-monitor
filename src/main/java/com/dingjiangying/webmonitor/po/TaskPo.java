@@ -13,6 +13,7 @@ public class TaskPo {
 
     private String taskId;
     private String taskName;
+    private String taskUrl;
     private String cityList;
     private Timestamp createTime;
     private Integer hasHuddled;

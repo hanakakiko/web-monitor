@@ -31,7 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("用到一！！");
         httpSecurity.authorizeRequests()
                 .antMatchers("/js/**","/css/**","/images/*","/fonts/**","/**/*.png","/**/*.jpg").permitAll()
-                .antMatchers("/","/login","/signin").permitAll()
+                .antMatchers("/","/login","/task").permitAll()
+                .antMatchers("/task/list","/druid/*").permitAll()
+                .antMatchers("/user/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPo {
-    Integer id;
+    Integer userId;
 
-    String username;
+    String userName;
 
-    String password;
+    String userPassword;
 
 //    CREATE TABLE `user` (
 //            `id` int(11) NOT NULL AUTO_INCREMENT,
