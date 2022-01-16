@@ -3,8 +3,11 @@ package com.dingjiangying.webmonitor.dao;
 import com.dingjiangying.webmonitor.po.TaskPo;
 import com.dingjiangying.webmonitor.po.TaskPoExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface TaskPoMapper {
     int countByExample(TaskPoExample example);
 

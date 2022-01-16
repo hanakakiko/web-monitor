@@ -3,8 +3,10 @@ package com.dingjiangying.webmonitor.dao;
 import com.dingjiangying.webmonitor.po.LogPo;
 import com.dingjiangying.webmonitor.po.LogPoExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface LogPoMapper {
     int countByExample(LogPoExample example);
 

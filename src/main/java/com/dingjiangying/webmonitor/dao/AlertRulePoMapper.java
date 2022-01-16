@@ -3,8 +3,11 @@ package com.dingjiangying.webmonitor.dao;
 import com.dingjiangying.webmonitor.po.AlertRulePo;
 import com.dingjiangying.webmonitor.po.AlertRulePoExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface AlertRulePoMapper {
     int countByExample(AlertRulePoExample example);
 
