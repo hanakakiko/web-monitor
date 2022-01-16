@@ -15,24 +15,24 @@ import java.util.List;
 @RequestMapping("/task")
 public class TaskController {
 
-    @Autowired
-    private TaskMapper taskMapper;
-
-    @Autowired
-    CommonController commonController;
-
-    @GetMapping("/list")
-    public String getTaskList(Model model){
-        List<TaskPo> tasks = taskMapper.getTasks();
-        model.addAttribute("tasks", tasks);
-        commonController.putUserName(model);
-        return "task";
-    }
-
-    // 查询全部部门
-    @GetMapping("/detail/{id}")
-    public TaskPo getDepartment(@PathVariable("id") String id){
-        return taskMapper.getTask(id);
-    }
+//    @Autowired
+//    private TaskMapper taskMapper;
+//
+//    @Autowired
+//    CommonController commonController;
+//
+//    @GetMapping("/list")
+//    public String getTaskList(Model model){
+//        List<TaskPo> tasks = taskMapper.getTasks();
+//        model.addAttribute("tasks", tasks);
+//        commonController.putUserName(model);
+//        return "task";
+//    }
+//
+//    // 查询全部部门
+//    @GetMapping("/detail/{id}")
+//    public TaskPo getDepartment(@PathVariable("id") String id){
+//        return taskMapper.getTask(id);
+//    }
 
 }

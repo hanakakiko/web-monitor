@@ -60,11 +60,11 @@
         <!-- 指定数据库表 -->
         <!--        <table schema="mywebmonnitor" tableName="user"></table>-->
         <!--        所有表-->
-        <table schema="mywebmonnitor" tableName="user_po"></table>
-        <table schema="mywebmonnitor" tableName="task_po"></table>
-        <table schema="mywebmonnitor" tableName="probe_po"></table>
+<!--        <table schema="mywebmonnitor" tableName="user_po"></table>-->
+<!--        <table schema="mywebmonnitor" tableName="task_po"></table>-->
+<!--        <table schema="mywebmonnitor" tableName="probe_po"></table>-->
         <table schema="mywebmonnitor" tableName="log_po"></table>
-        <table schema="mywebmonnitor" tableName="alert_rule_po"></table>
+<!--        <table schema="mywebmonnitor" tableName="alert_rule_po"></table>-->
     </context>
 </generatorConfiguration>
 

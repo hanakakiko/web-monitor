@@ -1,6 +1,6 @@
 package com.dingjiangying.webmonitor.service;
 
-import com.dingjiangying.webmonitor.dao.UserMapper;
+import com.dingjiangying.webmonitor.dao.UserPoMapper;
 import com.dingjiangying.webmonitor.po.UserPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    UserMapper userMapper;
+    UserPoMapper userMapper;
     @Autowired
     HttpServletRequest request;
     @Override
