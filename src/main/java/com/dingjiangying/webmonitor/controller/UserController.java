@@ -1,5 +1,6 @@
 package com.dingjiangying.webmonitor.controller;
 
+import com.dingjiangying.webmonitor.Vo.ContactVo;
 import com.dingjiangying.webmonitor.dao.UserMapper;
 import com.dingjiangying.webmonitor.form.UserInfo;
 import com.dingjiangying.webmonitor.po.UserPo;
@@ -57,9 +58,20 @@ public class UserController {
         return "task";
     }
 
-    @RequestMapping("contact")
-    public String showContact(){
-        return "/login";
+    @RequestMapping("/contact")
+    public String showContact(@ModelAttribute(value = "newContact") ContactVo newContactVo, Model model){
+        if(newContactVo!=null){
+            model.addAttribute("update",0);
+            model.addAttribute("contact",newContactVo);
+            return "/contact";
+        }
+        commonController.putUserName(model);
+//        userMapper.getUserByName((String) model.getAttribute("currentUser"));
+        ContactVo contactVo = new ContactVo();
+        contactVo.setMail("1104349906@qq.com");
+        contactVo.setPhone("13821028659");
+        model.addAttribute("contact",contactVo);
+        return "/contact";
     }
 
 }

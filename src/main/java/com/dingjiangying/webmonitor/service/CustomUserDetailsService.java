@@ -28,9 +28,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 //        if (user == null){
 //            throw new UsernameNotFoundException("用户名不存在!");
 //        }
-//        HttpSession session = request.getSession();
-//        session.setAttribute("user",user);
-//        session.setAttribute("sessusername",username);
+        UserPo user= new UserPo();
+        user.setUserName(username);
+        HttpSession session = request.getSession();
+        session.setAttribute("user",user);
+        session.setAttribute("sessusername",username);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 ////        for (Role role:user.getRoles()) {
 ////            authorities.add(new SimpleGrantedAuthority(role.getName()));
