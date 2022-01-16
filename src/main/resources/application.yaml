@@ -7,6 +7,14 @@ spring:
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
+  mail:
+    username: 1104349906@qq.com
+    password: osipwngqgdkfgeje
+    host: smtp.qq.com
+    port: 465
+    properties.smtp.auth: true
+    properties.smtp.timeout: 2500
+    properties.mail.smtp.ssl.enable: true
   datasource:
     username: root
     password: Dd1woshishei?jiangy
