@@ -3,8 +3,11 @@ package com.dingjiangying.webmonitor.dao;
 import com.dingjiangying.webmonitor.po.UserPo;
 import com.dingjiangying.webmonitor.po.UserPoExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface UserPoMapper {
     int countByExample(UserPoExample example);
 

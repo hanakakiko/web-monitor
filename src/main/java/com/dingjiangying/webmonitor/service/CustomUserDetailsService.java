@@ -1,6 +1,6 @@
 package com.dingjiangying.webmonitor.service;
 
-import com.dingjiangying.webmonitor.po_back.UserPo_backup;
+import com.dingjiangying.webmonitor.po.UserPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     HttpServletRequest request;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserPo_backup user = userService.selectUser(username);
+        UserPo user = userService.selectUser(username);
         System.out.println(user.getUserName());
         if (user == null){
             throw new UsernameNotFoundException("用户名不存在!");
