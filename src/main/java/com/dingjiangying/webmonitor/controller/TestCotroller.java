@@ -15,6 +15,9 @@ public class TestCotroller {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    CommonController commonController;
+
     @GetMapping("/jdbc")
     public List<Map<String, Object>> taskList(){
         String sql = "select * from task";

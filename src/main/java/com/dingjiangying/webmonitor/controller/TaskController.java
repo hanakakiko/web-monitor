@@ -18,10 +18,14 @@ public class TaskController {
     @Autowired
     private TaskMapper taskMapper;
 
+    @Autowired
+    CommonController commonController;
+
     @GetMapping("/list")
     public String getTaskList(Model model){
         List<TaskPo> tasks = taskMapper.getTasks();
         model.addAttribute("tasks", tasks);
+        commonController.putUserName(model);
         return "task";
     }
 
