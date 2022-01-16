@@ -17,7 +17,8 @@ spring:
     properties.mail.smtp.ssl.enable: true
   datasource:
     username: root
-    password: Dd1woshishei?jiangy
+#    password: Dd1woshishei?jiangy
+#    password:
     url: jdbc:mysql://localhost:3306/mywebmonitor?useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource

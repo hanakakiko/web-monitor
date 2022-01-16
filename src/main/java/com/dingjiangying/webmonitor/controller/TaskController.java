@@ -1,7 +1,7 @@
 package com.dingjiangying.webmonitor.controller;
 
 import com.dingjiangying.webmonitor.dao.TaskMapper;
-import com.dingjiangying.webmonitor.po.TaskPo;
+import com.dingjiangying.webmonitor.po_back.TaskPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,20 +15,24 @@ import java.util.List;
 @RequestMapping("/task")
 public class TaskController {
 
-    @Autowired
-    private TaskMapper taskMapper;
-
-    @GetMapping("/list")
-    public String getTaskList(Model model){
-        List<TaskPo> tasks = taskMapper.getTasks();
-        model.addAttribute("tasks", tasks);
-        return "task";
-    }
-
-    // 查询全部部门
-    @GetMapping("/detail/{id}")
-    public TaskPo getDepartment(@PathVariable("id") String id){
-        return taskMapper.getTask(id);
-    }
+//    @Autowired
+//    private TaskMapper taskMapper;
+//
+//    @Autowired
+//    CommonController commonController;
+//
+//    @GetMapping("/list")
+//    public String getTaskList(Model model){
+//        List<TaskPo> tasks = taskMapper.getTasks();
+//        model.addAttribute("tasks", tasks);
+//        commonController.putUserName(model);
+//        return "task";
+//    }
+//
+//    // 查询全部部门
+//    @GetMapping("/detail/{id}")
+//    public TaskPo getDepartment(@PathVariable("id") String id){
+//        return taskMapper.getTask(id);
+//    }
 
 }

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingjiangying.webmonitor.dao.TaskPoMapper" >
+  <resultMap id="BaseResultMap" type="com.dingjiangying.webmonitor.po.TaskPo" >
+    <id column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+    <result column="task_url" property="taskUrl" jdbcType="VARCHAR" />
+    <result column="city_list" property="cityList" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="has_huddled" property="hasHuddled" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="alert_id" property="alertId" jdbcType="INTEGER" />
+    <result column="alert_count" property="alertCount" jdbcType="INTEGER" />
+    <result column="umpdate_time" property="umpdateTime" jdbcType="TIMESTAMP" />
+    <result column="script_path" property="scriptPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    task_id, task_name, task_url, city_list, create_time, has_huddled, user_id, alert_id, 
+    alert_count, umpdate_time, script_path
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dingjiangying.webmonitor.po.TaskPoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from task_po
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from task_po
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dingjiangying.webmonitor.po.TaskPoExample" >
+    delete from task_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dingjiangying.webmonitor.po.TaskPo" >
+    insert into task_po (task_id, task_name, task_url, 
+      city_list, create_time, has_huddled, 
+      user_id, alert_id, alert_count, 
+      umpdate_time, script_path)
+    values (#{taskId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{taskUrl,jdbcType=VARCHAR}, 
+      #{cityList,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{hasHuddled,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{alertId,jdbcType=INTEGER}, #{alertCount,jdbcType=INTEGER}, 
+      #{umpdateTime,jdbcType=TIMESTAMP}, #{scriptPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.TaskPo" >
+    insert into task_po
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="taskName != null" >
+        task_name,
+      </if>
+      <if test="taskUrl != null" >
+        task_url,
+      </if>
+      <if test="cityList != null" >
+        city_list,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="hasHuddled != null" >
+        has_huddled,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="alertId != null" >
+        alert_id,
+      </if>
+      <if test="alertCount != null" >
+        alert_count,
+      </if>
+      <if test="umpdateTime != null" >
+        umpdate_time,
+      </if>
+      <if test="scriptPath != null" >
+        script_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null" >
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUrl != null" >
+        #{taskUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cityList != null" >
+        #{cityList,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasHuddled != null" >
+        #{hasHuddled,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="alertId != null" >
+        #{alertId,jdbcType=INTEGER},
+      </if>
+      <if test="alertCount != null" >
+        #{alertCount,jdbcType=INTEGER},
+      </if>
+      <if test="umpdateTime != null" >
+        #{umpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scriptPath != null" >
+        #{scriptPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dingjiangying.webmonitor.po.TaskPoExample" resultType="java.lang.Integer" >
+    select count(*) from task_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update task_po
+    <set >
+      <if test="record.taskId != null" >
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskName != null" >
+        task_name = #{record.taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskUrl != null" >
+        task_url = #{record.taskUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityList != null" >
+        city_list = #{record.cityList,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hasHuddled != null" >
+        has_huddled = #{record.hasHuddled,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.alertId != null" >
+        alert_id = #{record.alertId,jdbcType=INTEGER},
+      </if>
+      <if test="record.alertCount != null" >
+        alert_count = #{record.alertCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.umpdateTime != null" >
+        umpdate_time = #{record.umpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.scriptPath != null" >
+        script_path = #{record.scriptPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update task_po
+    set task_id = #{record.taskId,jdbcType=INTEGER},
+      task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_url = #{record.taskUrl,jdbcType=VARCHAR},
+      city_list = #{record.cityList,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      has_huddled = #{record.hasHuddled,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      alert_id = #{record.alertId,jdbcType=INTEGER},
+      alert_count = #{record.alertCount,jdbcType=INTEGER},
+      umpdate_time = #{record.umpdateTime,jdbcType=TIMESTAMP},
+      script_path = #{record.scriptPath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dingjiangying.webmonitor.po.TaskPo" >
+    update task_po
+    <set >
+      <if test="taskName != null" >
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUrl != null" >
+        task_url = #{taskUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cityList != null" >
+        city_list = #{cityList,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasHuddled != null" >
+        has_huddled = #{hasHuddled,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="alertId != null" >
+        alert_id = #{alertId,jdbcType=INTEGER},
+      </if>
+      <if test="alertCount != null" >
+        alert_count = #{alertCount,jdbcType=INTEGER},
+      </if>
+      <if test="umpdateTime != null" >
+        umpdate_time = #{umpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scriptPath != null" >
+        script_path = #{scriptPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dingjiangying.webmonitor.po.TaskPo" >
+    update task_po
+    set task_name = #{taskName,jdbcType=VARCHAR},
+      task_url = #{taskUrl,jdbcType=VARCHAR},
+      city_list = #{cityList,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      has_huddled = #{hasHuddled,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      alert_id = #{alertId,jdbcType=INTEGER},
+      alert_count = #{alertCount,jdbcType=INTEGER},
+      umpdate_time = #{umpdateTime,jdbcType=TIMESTAMP},
+      script_path = #{scriptPath,jdbcType=VARCHAR}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

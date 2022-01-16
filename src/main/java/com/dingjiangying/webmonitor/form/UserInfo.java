@@ -1,8 +1,7 @@
 package com.dingjiangying.webmonitor.form;
 
-import com.dingjiangying.webmonitor.po.UserPo;
+import com.dingjiangying.webmonitor.po_back.UserPo_backup;
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +10,7 @@ public class UserInfo {
     String username;
     String password;
 
-    public UserPo covertToPo(){
-        return new UserPo(null,username,password);
+    public UserPo_backup covertToPo(){
+        return new UserPo_backup(null,username,password);
     }
 }
