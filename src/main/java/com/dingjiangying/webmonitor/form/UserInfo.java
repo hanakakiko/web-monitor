@@ -12,6 +12,6 @@ public class UserInfo {
     String password;
 
     public UserPo covertToPo(){
-        return new UserPo(null,username,password);
+        return new UserPo(null,username,password,1,0,null);
     }
 }
