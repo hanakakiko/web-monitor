@@ -56,13 +56,6 @@ public class UserController {
     @GetMapping(value = "login")
     public String login(Model model, HttpSession session) {
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            String currentUserName = authentication.getName();
-//            model.addAttribute("currentUser", currentUserName);
-//        } else {
-//            model.addAttribute("currentUser", "游客");
-//        }
         return "/login";
     }
 
@@ -105,10 +98,10 @@ public class UserController {
 
     }
 
-    //    @RequestMapping("/info")
-//    public String getGreenPage(){
-//        return "alert";
-//    }
+    @RequestMapping("/info")
+    public String getGreenPage(){
+        return "alert";
+    }
 
     @RequestMapping("/register")
     public String register(Model model, HttpSession session) {
@@ -142,13 +135,12 @@ public class UserController {
     @RequestMapping("/contact")
     public String showContact(@ModelAttribute(value = "newContact") ContactVo newContactVo, Model model, HttpSession session) {
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
-        if (newContactVo != null) {
+        if (newContactVo.getPhone() != null || newContactVo.getMail() != null) {
+            //todo update contact info
             model.addAttribute("update", 0);
             model.addAttribute("contact", newContactVo);
             return "/contact";
         }
-//        commonController.putUserName(model);
-////        userMapper.getUserByName((String) model.getAttribute("currentUser"));
         ContactVo contactVo = new ContactVo();
         contactVo.setMail("1104349906@qq.com");
         contactVo.setPhone("13821028659");

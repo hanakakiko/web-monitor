@@ -6,7 +6,8 @@
 
 <body>
 
-<nav th:replace="~{commons.html::headbar}"></nav>
+
+<nav th:replace="~{commons::headbar(${currentUser})}"></nav>
 
 <div class="container-fluid">
     <div class="row">
