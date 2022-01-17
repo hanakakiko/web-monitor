@@ -10,12 +10,10 @@
 
 <div class="jumbotron">
     <div class="container">
-        <form class="form-horizontal" th:action="@{/user/register}" method="post" th:object="${userinfo}">
+        <form class="form-horizontal" th:action="@{/register_form}" method="post" th:object="${userinfo}">
             <div class="form-group">
-                <p th:if="${param.error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">
-                    注册错误，请重新输入！</p>
-                <p th:if="${param.success}" class="col-sm-offset-2 col-sm-10"
-                   style="color: darkred; font-size: 14px"> 注册成功！</p>
+                <p th:if="${error}" th:text="${error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px"></p>
+                <p th:if="${success}" th:text="${success}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px"></p>
                 <label for="inputUsername3" class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-10">
                     <input name="username" type="username" class="form-control" id="inputUsername3" placeholder="请输入用户名">

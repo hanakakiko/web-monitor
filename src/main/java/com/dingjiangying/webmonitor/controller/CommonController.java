@@ -26,14 +26,14 @@ public class CommonController {
         return "index";
     }
 
-    void putUserName(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            model.addAttribute("currentUser",currentUserName);
-        }else{
-            model.addAttribute("currentUser","游客");
-        }
-    }
+//    void putUserName(Model model){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+//            String currentUserName = authentication.getName();
+//            model.addAttribute("currentUser",currentUserName);
+//        }else{
+//            model.addAttribute("currentUser","游客");
+//        }
+//    }
 
 }
