@@ -10,20 +10,20 @@
     <div class="container">
         <form class="form-horizontal" th:action="@{/contact}" method="post" th:object="${newContact}">
             <div class="form-group">
-                <p th:if="${param.error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">
+                <p th:if="${error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">
                     登录错误，请重新输入！</p>
-                <p th:if="${param.success}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px"> 登录成功！</p>
+                <p th:if="${success}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px"> 登录成功！</p>
                 <label for="inputUsername3" class="col-sm-2 control-label">邮箱</label>
                 <div class="col-sm-10">
                     <input name="mail" type="username" class="form-control" id="inputUsername3"
-                           th:placeholder="${contact.mail}">
+                           th:value="${contact.mail}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">电话</label>
                 <div class="col-sm-10">
-                    <input name="phone" type="password" class="form-control" id="inputPassword3"
-                           th:placeholder="${contact.phone}">
+                    <input name="phone" type="tel" class="form-control" id="inputPassword3"
+                           th:value="${contact.phone}">
                 </div>
             </div>
             <p th:if="${update}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">

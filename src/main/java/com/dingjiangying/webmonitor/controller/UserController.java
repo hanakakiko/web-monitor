@@ -66,10 +66,15 @@ public class UserController {
         return "/login";
     }
 
+    @RequestMapping(value = "logout_form")
+    public String logout(Model model, HttpSession session) {
+        session.removeAttribute("currentUser");
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
+        return "/index";
+    }
 
     @PostMapping(value = "login_form")
-    public String postLogin(Model model, String username, String password, HttpSession session) throws Exception {
-        String currentUserName = Util.getCurrentUserName(session);
+    public String postLogin(Model model, String username, String password, HttpSession session) {
         UserPoExample example = new UserPoExample();
         example.createCriteria().andUserNameEqualTo(username);
         List<UserPo> users = userPoMapper.selectByExample(example);
@@ -104,36 +109,51 @@ public class UserController {
 //    public String getGreenPage(){
 //        return "alert";
 //    }
-//
+
     @RequestMapping("/register")
     public String register(Model model, HttpSession session) {
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
         return "/register";
     }
 
-//    @PostMapping("/register")
-//    public String register(@ModelAttribute(value = "userinfo") UserInfo userInfo, Model model){
-//        commonController.putUserName(model);
-//        System.out.println("post!");
-//        UserPo userPo = userInfo.covertToPo();
-//        userMapper.insertUser(userPo);
-//        return "task";
-//    }
-//
-//    @RequestMapping("/contact")
-//    public String showContact(@ModelAttribute(value = "newContact") ContactVo newContactVo, Model model){
-//        if(newContactVo!=null){
-//            model.addAttribute("update",0);
-//            model.addAttribute("contact",newContactVo);
-//            return "/contact";
-//        }
+    @RequestMapping("/register_form")
+    public String register(@ModelAttribute(value = "userinfo") UserInfo userInfo, Model model, HttpSession session) {
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
+
+        UserPoExample example = new UserPoExample();
+        example.createCriteria().andUserNameEqualTo(userInfo.getUsername());
+        List<UserPo> users = userPoMapper.selectByExample(example);
+
+        if (users != null && users.size() > 0) {
+            model.addAttribute("error", "用户名已被使用");
+            return "/register";
+        } else {
+            //todo check password valid
+            UserPo userPo = userInfo.covertToPo();
+            userPoMapper.insert(userPo);
+            model.addAttribute("success", "注册成功");
+
+            session.setAttribute("currentUser", userPo.getUserName());
+            model.addAttribute("currentUser", Util.getCurrentUserName(session));
+            return "task";
+        }
+    }
+
+    @RequestMapping("/contact")
+    public String showContact(@ModelAttribute(value = "newContact") ContactVo newContactVo, Model model, HttpSession session) {
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
+        if (newContactVo != null) {
+            model.addAttribute("update", 0);
+            model.addAttribute("contact", newContactVo);
+            return "/contact";
+        }
 //        commonController.putUserName(model);
 ////        userMapper.getUserByName((String) model.getAttribute("currentUser"));
-//        ContactVo contactVo = new ContactVo();
-//        contactVo.setMail("1104349906@qq.com");
-//        contactVo.setPhone("13821028659");
-//        model.addAttribute("contact",contactVo);
-//        return "/contact";
-//    }
+        ContactVo contactVo = new ContactVo();
+        contactVo.setMail("1104349906@qq.com");
+        contactVo.setPhone("13821028659");
+        model.addAttribute("contact", contactVo);
+        return "/contact";
+    }
 
 }

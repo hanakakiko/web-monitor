@@ -49,7 +49,7 @@
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Help</a></li>
                 <li><a href="#">
-                    <form th:action="@{/logout}" method="post">
+                    <form th:action="@{/logout_form}" method="post">
                         <input th:if="${currentUser} ne '游客'" type="submit" name="logout" value="退出" >
                     </form>
                 </a></li>

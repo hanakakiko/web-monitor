@@ -35,13 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        httpSecurity.authorizeRequests()
 //                .antMatchers("/js/**","/css/**","/images/*","/fonts/**","/**/*.png","/**/*.jpg").permitAll()
 //                .antMatchers("/","/login","/register","/login_form").permitAll()
-////                .antMatchers("/task/list","/d;uid/*").permitAll()
+//                .antMatchers("/task/list","/duid/*").permitAll();
 //                .anyRequest().authenticated();
 //                .and()
 //                .formLogin()
 //                .usernameParameter("username").passwordParameter("password")
 //                .loginPage("/login")
-//                .failureUrl("/login?error")
+//                .failureUrl("/login?error");
 //                .defaultSuccessUrl("/task/list")
 //                .and()
 //                .rememberMe().rememberMeParameter("remember-me") //其实默认就是remember-me，这里可以指定更换

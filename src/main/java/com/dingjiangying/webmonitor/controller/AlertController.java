@@ -14,7 +14,7 @@ public class AlertController {
 
     @RequestMapping("/list")
     public String getGreenPage(Model model){
-        commonController.putUserName(model);
+//        commonController.putUserName(model);
         return "alert";
     }
 

@@ -10,7 +10,10 @@ public class UserInfo {
     String username;
     String password;
 
-    public UserPo covertToPo(){
-        return new UserPo();
+    public UserPo covertToPo() {
+        UserPo user = new UserPo();
+        user.setUserName(username);
+        user.setUserPassword(password);
+        return user;
     }
 }
