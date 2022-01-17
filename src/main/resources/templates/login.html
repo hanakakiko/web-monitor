@@ -10,7 +10,7 @@
 <nav th:replace="~{commons::headbar(${currentUser})}"></nav>
 <div class="jumbotron">
     <div class="container">
-        <form class="form-horizontal" th:action="@{/login}" method="post">
+        <form class="form-horizontal" th:action="@{/login_form}" method="post">
             <div class="form-group">
 <!--                <p th:if="${param.error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">-->
                 <p th:if="${error}" th:text="${error}" class="col-sm-offset-2 col-sm-10" style="color: #8b0000; font-size: 14px">

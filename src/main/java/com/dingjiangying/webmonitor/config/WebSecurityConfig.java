@@ -31,27 +31,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     //重写configure(HttpSecurity http)的方法，这里面来自定义自己的拦截方法和业务逻辑
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("用到一！！");
-        httpSecurity.authorizeRequests()
-                .antMatchers("/js/**","/css/**","/images/*","/fonts/**","/**/*.png","/**/*.jpg").permitAll()
-                .antMatchers("/","/login","/register","/task").permitAll()
-                .antMatchers("/task/list","/druid/*").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .usernameParameter("username").passwordParameter("password")
-                .loginPage("/login")
-                .failureUrl("/login?error")
-                .defaultSuccessUrl("/task/list")
-                .and()
-                .rememberMe().rememberMeParameter("remember-me") //其实默认就是remember-me，这里可以指定更换
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")  //退出登录
-                .permitAll()
-                .and()
-                .csrf().disable();
+//        System.out.println("用到一！！");
+//        httpSecurity.authorizeRequests()
+//                .antMatchers("/js/**","/css/**","/images/*","/fonts/**","/**/*.png","/**/*.jpg").permitAll()
+//                .antMatchers("/","/login","/register","/login_form").permitAll()
+////                .antMatchers("/task/list","/d;uid/*").permitAll()
+//                .anyRequest().authenticated();
+//                .and()
+//                .formLogin()
+//                .usernameParameter("username").passwordParameter("password")
+//                .loginPage("/login")
+//                .failureUrl("/login?error")
+//                .defaultSuccessUrl("/task/list")
+//                .and()
+//                .rememberMe().rememberMeParameter("remember-me") //其实默认就是remember-me，这里可以指定更换
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/")  //退出登录
+//                .permitAll()
+//                .and()
+//                .csrf().disable();
 
     }
     @Override
