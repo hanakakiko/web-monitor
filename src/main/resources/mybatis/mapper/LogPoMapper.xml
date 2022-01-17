@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingjiangying.webmonitor.dao.LogPoMapper" >
+  <resultMap id="BaseResultMap" type="com.dingjiangying.webmonitor.po.LogPo" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="probe_id" property="probeId" jdbcType="INTEGER" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+    <result column="has_handled" property="hasHandled" jdbcType="INTEGER" />
+    <result column="total_time" property="totalTime" jdbcType="BIGINT" />
+    <result column="error_code" property="errorCode" jdbcType="INTEGER" />
+    <result column="script_output_path" property="scriptOutputPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    log_id, probe_id, task_id, timestamp, has_handled, total_time, error_code, script_output_path
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dingjiangying.webmonitor.po.LogPoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from log_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from log_po
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_po
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dingjiangying.webmonitor.po.LogPoExample" >
+    delete from log_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dingjiangying.webmonitor.po.LogPo" >
+    insert into log_po (log_id, probe_id, task_id, 
+      timestamp, has_handled, total_time, 
+      error_code, script_output_path)
+    values (#{logId,jdbcType=INTEGER}, #{probeId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+      #{timestamp,jdbcType=TIMESTAMP}, #{hasHandled,jdbcType=INTEGER}, #{totalTime,jdbcType=BIGINT}, 
+      #{errorCode,jdbcType=INTEGER}, #{scriptOutputPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.LogPo" >
+    insert into log_po
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="probeId != null" >
+        probe_id,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="timestamp != null" >
+        timestamp,
+      </if>
+      <if test="hasHandled != null" >
+        has_handled,
+      </if>
+      <if test="totalTime != null" >
+        total_time,
+      </if>
+      <if test="errorCode != null" >
+        error_code,
+      </if>
+      <if test="scriptOutputPath != null" >
+        script_output_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="probeId != null" >
+        #{probeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasHandled != null" >
+        #{hasHandled,jdbcType=INTEGER},
+      </if>
+      <if test="totalTime != null" >
+        #{totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="scriptOutputPath != null" >
+        #{scriptOutputPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dingjiangying.webmonitor.po.LogPoExample" resultType="java.lang.Integer" >
+    select count(*) from log_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update log_po
+    <set >
+      <if test="record.logId != null" >
+        log_id = #{record.logId,jdbcType=INTEGER},
+      </if>
+      <if test="record.probeId != null" >
+        probe_id = #{record.probeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskId != null" >
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.timestamp != null" >
+        timestamp = #{record.timestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hasHandled != null" >
+        has_handled = #{record.hasHandled,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalTime != null" >
+        total_time = #{record.totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.errorCode != null" >
+        error_code = #{record.errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.scriptOutputPath != null" >
+        script_output_path = #{record.scriptOutputPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update log_po
+    set log_id = #{record.logId,jdbcType=INTEGER},
+      probe_id = #{record.probeId,jdbcType=INTEGER},
+      task_id = #{record.taskId,jdbcType=INTEGER},
+      timestamp = #{record.timestamp,jdbcType=TIMESTAMP},
+      has_handled = #{record.hasHandled,jdbcType=INTEGER},
+      total_time = #{record.totalTime,jdbcType=BIGINT},
+      error_code = #{record.errorCode,jdbcType=INTEGER},
+      script_output_path = #{record.scriptOutputPath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dingjiangying.webmonitor.po.LogPo" >
+    update log_po
+    <set >
+      <if test="probeId != null" >
+        probe_id = #{probeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="timestamp != null" >
+        timestamp = #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasHandled != null" >
+        has_handled = #{hasHandled,jdbcType=INTEGER},
+      </if>
+      <if test="totalTime != null" >
+        total_time = #{totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="errorCode != null" >
+        error_code = #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="scriptOutputPath != null" >
+        script_output_path = #{scriptOutputPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dingjiangying.webmonitor.po.LogPo" >
+    update log_po
+    set probe_id = #{probeId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      timestamp = #{timestamp,jdbcType=TIMESTAMP},
+      has_handled = #{hasHandled,jdbcType=INTEGER},
+      total_time = #{totalTime,jdbcType=BIGINT},
+      error_code = #{errorCode,jdbcType=INTEGER},
+      script_output_path = #{scriptOutputPath,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

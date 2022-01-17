@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingjiangying.webmonitor.dao.AlertRulePoMapper" >
+  <resultMap id="BaseResultMap" type="com.dingjiangying.webmonitor.po.AlertRulePo" >
+    <id column="alert_id" property="alertId" jdbcType="INTEGER" />
+    <result column="alert_name" property="alertName" jdbcType="VARCHAR" />
+    <result column="alert_type" property="alertType" jdbcType="INTEGER" />
+    <result column="task_count" property="taskCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    alert_id, alert_name, alert_type, task_count
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dingjiangying.webmonitor.po.AlertRulePoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from alert_rule_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from alert_rule_po
+    where alert_id = #{alertId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from alert_rule_po
+    where alert_id = #{alertId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dingjiangying.webmonitor.po.AlertRulePoExample" >
+    delete from alert_rule_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dingjiangying.webmonitor.po.AlertRulePo" >
+    insert into alert_rule_po (alert_id, alert_name, alert_type, 
+      task_count)
+    values (#{alertId,jdbcType=INTEGER}, #{alertName,jdbcType=VARCHAR}, #{alertType,jdbcType=INTEGER}, 
+      #{taskCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.AlertRulePo" >
+    insert into alert_rule_po
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alertId != null" >
+        alert_id,
+      </if>
+      <if test="alertName != null" >
+        alert_name,
+      </if>
+      <if test="alertType != null" >
+        alert_type,
+      </if>
+      <if test="taskCount != null" >
+        task_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alertId != null" >
+        #{alertId,jdbcType=INTEGER},
+      </if>
+      <if test="alertName != null" >
+        #{alertName,jdbcType=VARCHAR},
+      </if>
+      <if test="alertType != null" >
+        #{alertType,jdbcType=INTEGER},
+      </if>
+      <if test="taskCount != null" >
+        #{taskCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dingjiangying.webmonitor.po.AlertRulePoExample" resultType="java.lang.Integer" >
+    select count(*) from alert_rule_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update alert_rule_po
+    <set >
+      <if test="record.alertId != null" >
+        alert_id = #{record.alertId,jdbcType=INTEGER},
+      </if>
+      <if test="record.alertName != null" >
+        alert_name = #{record.alertName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alertType != null" >
+        alert_type = #{record.alertType,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskCount != null" >
+        task_count = #{record.taskCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update alert_rule_po
+    set alert_id = #{record.alertId,jdbcType=INTEGER},
+      alert_name = #{record.alertName,jdbcType=VARCHAR},
+      alert_type = #{record.alertType,jdbcType=INTEGER},
+      task_count = #{record.taskCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dingjiangying.webmonitor.po.AlertRulePo" >
+    update alert_rule_po
+    <set >
+      <if test="alertName != null" >
+        alert_name = #{alertName,jdbcType=VARCHAR},
+      </if>
+      <if test="alertType != null" >
+        alert_type = #{alertType,jdbcType=INTEGER},
+      </if>
+      <if test="taskCount != null" >
+        task_count = #{taskCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where alert_id = #{alertId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dingjiangying.webmonitor.po.AlertRulePo" >
+    update alert_rule_po
+    set alert_name = #{alertName,jdbcType=VARCHAR},
+      alert_type = #{alertType,jdbcType=INTEGER},
+      task_count = #{taskCount,jdbcType=INTEGER}
+    where alert_id = #{alertId,jdbcType=INTEGER}
+  </update>
+</mapper>

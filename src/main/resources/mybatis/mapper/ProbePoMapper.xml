@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingjiangying.webmonitor.dao.ProbePoMapper" >
+  <resultMap id="BaseResultMap" type="com.dingjiangying.webmonitor.po.ProbePo" >
+    <id column="probe_id" property="probeId" jdbcType="INTEGER" />
+    <result column="probe_name" property="probeName" jdbcType="VARCHAR" />
+    <result column="ssh_pwd" property="sshPwd" jdbcType="VARCHAR" />
+    <result column="probe_type" property="probeType" jdbcType="INTEGER" />
+    <result column="probe_status" property="probeStatus" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="task_list" property="taskList" jdbcType="VARCHAR" />
+    <result column="active_task_list" property="activeTaskList" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    probe_id, probe_name, ssh_pwd, probe_type, probe_status, user_id, task_list, active_task_list
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dingjiangying.webmonitor.po.ProbePoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from probe_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from probe_po
+    where probe_id = #{probeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from probe_po
+    where probe_id = #{probeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dingjiangying.webmonitor.po.ProbePoExample" >
+    delete from probe_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dingjiangying.webmonitor.po.ProbePo" >
+    insert into probe_po (probe_id, probe_name, ssh_pwd, 
+      probe_type, probe_status, user_id, 
+      task_list, active_task_list)
+    values (#{probeId,jdbcType=INTEGER}, #{probeName,jdbcType=VARCHAR}, #{sshPwd,jdbcType=VARCHAR}, 
+      #{probeType,jdbcType=INTEGER}, #{probeStatus,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{taskList,jdbcType=VARCHAR}, #{activeTaskList,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.ProbePo" >
+    insert into probe_po
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="probeId != null" >
+        probe_id,
+      </if>
+      <if test="probeName != null" >
+        probe_name,
+      </if>
+      <if test="sshPwd != null" >
+        ssh_pwd,
+      </if>
+      <if test="probeType != null" >
+        probe_type,
+      </if>
+      <if test="probeStatus != null" >
+        probe_status,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="taskList != null" >
+        task_list,
+      </if>
+      <if test="activeTaskList != null" >
+        active_task_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="probeId != null" >
+        #{probeId,jdbcType=INTEGER},
+      </if>
+      <if test="probeName != null" >
+        #{probeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sshPwd != null" >
+        #{sshPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="probeType != null" >
+        #{probeType,jdbcType=INTEGER},
+      </if>
+      <if test="probeStatus != null" >
+        #{probeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskList != null" >
+        #{taskList,jdbcType=VARCHAR},
+      </if>
+      <if test="activeTaskList != null" >
+        #{activeTaskList,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dingjiangying.webmonitor.po.ProbePoExample" resultType="java.lang.Integer" >
+    select count(*) from probe_po
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update probe_po
+    <set >
+      <if test="record.probeId != null" >
+        probe_id = #{record.probeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.probeName != null" >
+        probe_name = #{record.probeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sshPwd != null" >
+        ssh_pwd = #{record.sshPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.probeType != null" >
+        probe_type = #{record.probeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.probeStatus != null" >
+        probe_status = #{record.probeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskList != null" >
+        task_list = #{record.taskList,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activeTaskList != null" >
+        active_task_list = #{record.activeTaskList,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update probe_po
+    set probe_id = #{record.probeId,jdbcType=INTEGER},
+      probe_name = #{record.probeName,jdbcType=VARCHAR},
+      ssh_pwd = #{record.sshPwd,jdbcType=VARCHAR},
+      probe_type = #{record.probeType,jdbcType=INTEGER},
+      probe_status = #{record.probeStatus,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      task_list = #{record.taskList,jdbcType=VARCHAR},
+      active_task_list = #{record.activeTaskList,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dingjiangying.webmonitor.po.ProbePo" >
+    update probe_po
+    <set >
+      <if test="probeName != null" >
+        probe_name = #{probeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sshPwd != null" >
+        ssh_pwd = #{sshPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="probeType != null" >
+        probe_type = #{probeType,jdbcType=INTEGER},
+      </if>
+      <if test="probeStatus != null" >
+        probe_status = #{probeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskList != null" >
+        task_list = #{taskList,jdbcType=VARCHAR},
+      </if>
+      <if test="activeTaskList != null" >
+        active_task_list = #{activeTaskList,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where probe_id = #{probeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dingjiangying.webmonitor.po.ProbePo" >
+    update probe_po
+    set probe_name = #{probeName,jdbcType=VARCHAR},
+      ssh_pwd = #{sshPwd,jdbcType=VARCHAR},
+      probe_type = #{probeType,jdbcType=INTEGER},
+      probe_status = #{probeStatus,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      task_list = #{taskList,jdbcType=VARCHAR},
+      active_task_list = #{activeTaskList,jdbcType=VARCHAR}
+    where probe_id = #{probeId,jdbcType=INTEGER}
+  </update>
+</mapper>

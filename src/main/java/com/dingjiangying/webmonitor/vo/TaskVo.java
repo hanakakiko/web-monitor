@@ -1,4 +1,4 @@
-package com.dingjiangying.webmonitor.Vo;
+package com.dingjiangying.webmonitor.vo;
 
 import java.sql.Timestamp;
 import java.util.List;

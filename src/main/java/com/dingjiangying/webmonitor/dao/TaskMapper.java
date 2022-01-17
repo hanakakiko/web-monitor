@@ -1,16 +1,12 @@
 package com.dingjiangying.webmonitor.dao;
-import com.dingjiangying.webmonitor.po.TaskPo;
-import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
-@Mapper
+//@Mapper
 public interface TaskMapper {
 
-    // 获取所有部门信息
-    List<TaskPo> getTasks();
-
-    // 通过id获得部门
-    TaskPo getTask(String taskId);
+//    // 获取所有部门信息
+//    List<TaskPo_backup> getTasks();
+//
+//    // 通过id获得部门
+//    TaskPo_backup getTask(String taskId);
 
 }
