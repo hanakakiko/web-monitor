@@ -5,6 +5,7 @@ import com.dingjiangying.webmonitor.dao.UserPoMapper;
 import com.dingjiangying.webmonitor.form.UserInfo;
 import com.dingjiangying.webmonitor.po.UserPo;
 import com.dingjiangying.webmonitor.po.UserPoExample;
+import com.dingjiangying.webmonitor.util.Util;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -50,57 +52,65 @@ public class UserController {
     @Resource
     UserPoMapper userPoMapper;
 
+
     @GetMapping(value = "login")
-    public String getLogin(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            model.addAttribute("currentUser", currentUserName);
-        } else {
-            model.addAttribute("currentUser", "游客");
-        }
+    public String login(Model model, HttpSession session) {
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+//            String currentUserName = authentication.getName();
+//            model.addAttribute("currentUser", currentUserName);
+//        } else {
+//            model.addAttribute("currentUser", "游客");
+//        }
         return "/login";
     }
 
 
-    @PostMapping(value = "login")
-    public String postLogin(Model model, String username, String password) throws Exception {
+    @PostMapping(value = "login_form")
+    public String postLogin(Model model, String username, String password, HttpSession session) throws Exception {
+        String currentUserName = Util.getCurrentUserName(session);
         UserPoExample example = new UserPoExample();
         example.createCriteria().andUserNameEqualTo(username);
         List<UserPo> users = userPoMapper.selectByExample(example);
         if (users == null || users.size() == 0) {
             //未找到用户名
             model.addAttribute("error", "未找到用户名");
+            model.addAttribute("currentUser", Util.getCurrentUserName(session));
             return "/login";
         }
 //        默认同名用户只有一个
         UserPo user = users.get(0);
         if (user.getUserPassword() == null) {
             model.addAttribute("error", "用户数据异常");
+            model.addAttribute("currentUser", Util.getCurrentUserName(session));
             return "/login";
         }
 
         if (user.getUserPassword().equals(password)) {
             model.addAttribute("success", "登陆成功");
-            return "/task/list";
+            session.setAttribute("currentUser", user.getUserName());
+            model.addAttribute("currentUser", Util.getCurrentUserName(session));
+            return "/task";
         } else {
             model.addAttribute("error", "用户密码错误");
+            model.addAttribute("currentUser", Util.getCurrentUserName(session));
             return "/login";
         }
 
     }
 
-//    @RequestMapping("/info")
+    //    @RequestMapping("/info")
 //    public String getGreenPage(){
 //        return "alert";
 //    }
 //
-//    @RequestMapping("/register")
-//    public String register(){
-//        System.out.println("get!");
-//        return "register";
-//    }
-//
+    @RequestMapping("/register")
+    public String register(Model model, HttpSession session) {
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
+        return "/register";
+    }
+
 //    @PostMapping("/register")
 //    public String register(@ModelAttribute(value = "userinfo") UserInfo userInfo, Model model){
 //        commonController.putUserName(model);
