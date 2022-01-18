@@ -81,8 +81,9 @@ public class UserController {
         if (user.getUserPassword().equals(password)) {
             model.addAttribute("success", "登陆成功");
             session.setAttribute("currentUser", user.getUserName());
+            session.setAttribute("currentUserId",user.getUserId());
             model.addAttribute("currentUser", Util.getCurrentUserName(session));
-            return "/task";
+            return "redirect:/task/list";
         } else {
             model.addAttribute("error", "用户密码错误");
             model.addAttribute("currentUser", Util.getCurrentUserName(session));
@@ -119,9 +120,9 @@ public class UserController {
             userPoMapper.insert(userPo);
             model.addAttribute("success", "注册成功");
 
-            session.setAttribute("currentUser", userPo.getUserName());
-            model.addAttribute("currentUser", Util.getCurrentUserName(session));
-            return "task";
+//            session.setAttribute("currentUser", userPo.getUserName());
+//            model.addAttribute("currentUser", Util.getCurrentUserName(session));
+            return "/login";
         }
     }
 
