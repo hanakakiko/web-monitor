@@ -10,7 +10,6 @@ import com.dingjiangying.webmonitor.util.DockerClientUtils;
 import com.dingjiangying.webmonitor.util.Util;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSON;
-import com.dingjiangying.webmonitor.vo.PerformanceVo;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import de.sstoehr.harreader.HarReader;
@@ -228,7 +227,6 @@ public class ScheduledProbeTaskService {
     }
 
     public void resolveHar(String harPath, LogPo log) throws HarReaderException {
-        PerformanceVo performanceVo = new PerformanceVo();
         //解析har文件
         HarReader harReader = new HarReader();
         Har har = harReader.readFromFile(new File(harPath));
