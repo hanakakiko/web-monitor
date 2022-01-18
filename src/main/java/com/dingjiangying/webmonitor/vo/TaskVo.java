@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskVo {
+
+    private Integer taskId;
     /**
      * 用户定义的task_name, 同一个用户下不允许重名
      */
@@ -21,9 +23,14 @@ public class TaskVo {
     private String taskUrl;
 
     /**
-     * 要在哪些探针上运行，是个probeName列表
+     * 要在哪些探针上运行，是个probeId列表
      */
-    private List<String> probeList;
+    private List<Integer> probeList;
+
+    /**
+     * probeId转换成名字
+     */
+    private String probeListNames;
 
     //    /**
     //     * 探测频率，是个枚举类型，1min、5min、15min、60min等，暂时不用
@@ -33,17 +40,21 @@ public class TaskVo {
     /**
      * 脚本路径，暂时也存在mysql所在服务器上的目录,前端处理成一个按钮，点进去看详情
      */
-    private String scriptPath;
+//    private String scriptPath;
+
+    private String script;
+
+
 
     /**
      * 建表的时候就等于current_time
      */
-    private Timestamp createTime;
+    private String createTime;
 
     /**
      * 建表的时候就设置每次update都修改为current_time
      */
-    private Timestamp umpdateTime;
+    private String umpdateTime;
 
     /**
      * 应用了哪些告警规则，是个列表
