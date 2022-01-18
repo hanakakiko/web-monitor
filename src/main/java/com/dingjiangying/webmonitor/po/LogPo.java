@@ -35,6 +35,9 @@ public class LogPo {
      */
     private Integer errorCode;
 
+    /**
+     * 执行puppeteer脚本的输出，在数据库某个目录下为每个logId建一个目录存放它的输出，里面可能有.har文件，可能有.jpg，.pdf
+     */
     private String scriptOutputPath;
 
     /**
