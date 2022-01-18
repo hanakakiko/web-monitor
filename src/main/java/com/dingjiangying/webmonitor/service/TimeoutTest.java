@@ -9,7 +9,6 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.jnlp.SingleInstanceService;
 
 public class TimeoutTest {
     private static ExecutorService executorService = Executors.newSingleThreadExecutor();
