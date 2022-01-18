@@ -78,14 +78,17 @@ public class ScheduledProbeTaskService {
 
     public static final String REMOTEPASSWORD = "Dd1woshishei?jiangy";
 
-    public static Integer PROBEID = 2;
+    public static Integer PROBEID = null;
 
     public static Integer TIMEOUT = 20000;
 
     @Scheduled(fixedRate = 60000)//一分钟拉一次
     @Async
     public void pullTasks() throws Exception {
-        String activeTaskList = probePoMapper.selectByPrimaryKey(probeId).getActiveTaskList();
+        if(PROBEID==null){
+            return ;
+        }
+        String activeTaskList = probePoMapper.selectByPrimaryKey(PROBEID).getActiveTaskList();
 
 //        activeTaskList = "[1,3,6,2]";
         File localTasks = new File(LOCALTASKPATH);
@@ -128,7 +131,7 @@ public class ScheduledProbeTaskService {
                 String probeTaskList = JSON.toJSONString(newProbetaskList);
 
                 ProbePo probePo = new ProbePo();
-                probePo.setProbeId(probeId);
+                probePo.setProbeId(PROBEID);
                 probePo.setActiveTaskList("");
                 probePo.setTaskList(probeTaskList);
 
@@ -245,7 +248,7 @@ public class ScheduledProbeTaskService {
         //解析har文件
         HarReader harReader = new HarReader();
         Har har = harReader.readFromFile(new File(harPath));
-        System.out.println(har.getLog().getCreator().getName());
+//        System.out.println(har.getLog().getCreator().getName());
 
         //页面开始加载时间
         Long startedDateTime = har.getLog().getPages().get(0).getStartedDateTime().getTime();
