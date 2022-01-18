@@ -1,5 +1,6 @@
 package com.dingjiangying.webmonitor.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.dingjiangying.webmonitor.vo.ContactVo;
 import com.dingjiangying.webmonitor.dao.UserPoMapper;
 import com.dingjiangying.webmonitor.form.UserInfo;
@@ -81,7 +82,7 @@ public class UserController {
         if (user.getUserPassword().equals(password)) {
             model.addAttribute("success", "登陆成功");
             session.setAttribute("currentUser", user.getUserName());
-            session.setAttribute("currentUserId",user.getUserId());
+            session.setAttribute("currentUserId", user.getUserId());
             model.addAttribute("currentUser", Util.getCurrentUserName(session));
             return "redirect:/task/list";
         } else {
@@ -93,7 +94,7 @@ public class UserController {
     }
 
     @RequestMapping("/info")
-    public String getGreenPage(){
+    public String getGreenPage() {
         return "alert";
     }
 
@@ -129,15 +130,31 @@ public class UserController {
     @RequestMapping("/contact")
     public String showContact(@ModelAttribute(value = "newContact") ContactVo newContactVo, Model model, HttpSession session) {
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
+        Integer currentUserId = Util.getCurrentUserId(session);
+        UserPo currentUser = userPoMapper.selectByPrimaryKey(currentUserId);
+
+//        if (contact == null) {
+////            newContactVo
+//        }
         if (newContactVo.getPhone() != null || newContactVo.getMail() != null) {
             //todo update contact info
             model.addAttribute("update", 0);
             model.addAttribute("contact", newContactVo);
+            String concateVoString = JSON.toJSONString(newContactVo);
+            currentUser.setContact(concateVoString);
+            userPoMapper.updateByPrimaryKeySelective(currentUser);
+            model.addAttribute("success","修改成功");
             return "/contact";
         }
+
+        String contact = currentUser.getContact();
         ContactVo contactVo = new ContactVo();
-        contactVo.setMail("1104349906@qq.com");
-        contactVo.setPhone("13821028659");
+        if (contact != null) {
+            contactVo = JSON.parseObject(contact, ContactVo.class);
+        }
+
+//        contactVo.setMail("1104349906@qq.com");
+//        contactVo.setPhone("13821028659");
         model.addAttribute("contact", contactVo);
         return "/contact";
     }
