@@ -85,7 +85,7 @@ public class ScheduledProbeTaskService {
     @Scheduled(fixedRate = 60000)//一分钟拉一次
     @Async
     public void pullTasks() throws Exception {
-        String activeTaskList = probePoMapper.selectByPrimaryKey(probeId).getActiveTaskList();
+        String activeTaskList = probePoMapper.selectByPrimaryKey(PROBEID).getActiveTaskList();
 
 //        activeTaskList = "[1,3,6,2]";
         File localTasks = new File(LOCALTASKPATH);
@@ -128,7 +128,7 @@ public class ScheduledProbeTaskService {
                 String probeTaskList = JSON.toJSONString(newProbetaskList);
 
                 ProbePo probePo = new ProbePo();
-                probePo.setProbeId(probeId);
+                probePo.setProbeId(PROBEID);
                 probePo.setActiveTaskList("");
                 probePo.setTaskList(probeTaskList);
 
@@ -160,7 +160,7 @@ public class ScheduledProbeTaskService {
 
     //同时开启limit个docker去运行MAXCONCURRENT个任务
     @Async
-    private void runTasks(List<TaskPo> taskPoList) throws HarReaderException, InterruptedException {
+    public void runTasks(List<TaskPo> taskPoList) throws HarReaderException, InterruptedException {
         int size = taskPoList.size();
         if(size!=0){
             int cycle = 60000 / size;
