@@ -4,12 +4,14 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 public class Util {
@@ -26,8 +28,11 @@ public class Util {
     }
 
     public static List<String> getList(String list) {//"[1,2,3]"
-        String[] strignList = list.replace("[]", "").split(",");
-        return Arrays.asList(strignList);
+        if(Strings.isNotBlank(list)){
+            String[] strignList = list.replace("[]", "").split(",");
+            return Arrays.asList(strignList);
+        }
+        return new ArrayList<>();
     }
 
     public static String getFromList(List<Integer> list) {
