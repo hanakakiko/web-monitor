@@ -26,11 +26,11 @@ public class SummaryVo {
     /**
      * 平均可用率前三的探针
      */
-    private List<ProbeVo> probeList;
+    private List<com.dingjiangying.webmonitor.vo.ProbeVo> probeList;
 
     /**
      * 平均可用率前三的任务
      */
-    private List<TaskVo> taskList;
+    private List<com.dingjiangying.webmonitor.vo.TaskVo> taskList;
 
 }

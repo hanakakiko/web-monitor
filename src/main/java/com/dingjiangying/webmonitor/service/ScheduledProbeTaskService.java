@@ -17,9 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.util.Strings;
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -47,64 +50,94 @@ public class ScheduledProbeTaskService {
     @Autowired
     TaskPoMapper taskPoMapper;
 
+    public static final String LOCALTASKPATH = "./localTasks.txt";
+
+    public static final Integer MAXCONCURRENT = 10;
+
     //@Scheduled(fixedRate = 60000)//一分钟拉一次
+//    @Async//和20s跑一波任务是异步的
     public void pullTasks(Integer probeId) {
         String activeTaskList = probePoMapper.selectByPrimaryKey(probeId).getActiveTaskList();
-//        activeTaskList = "[1,2,3,4]";
-        List<Integer> activeTaskIdList = JSON.parseArray(activeTaskList, Integer.class);
-//        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-//        simpleMailMessage.setSubject("邮件发送测试");
-//        simpleMailMessage.setText("测试下");
-//        simpleMailMessage.setFrom("1104349906@qq.com");
-//        simpleMailMessage.setTo("2000022759@stu.pku.edu.cn");
-//        javaMailSender.send(simpleMailMessage);
-        String localTaskPath = "./localTasks.txt";
-        File localTasks = new File(localTaskPath);
-        try {
-            // 检查目标文件是否存在，不存在则创建
-            if (!localTasks.exists()) {
-                localTasks.createNewFile();// 创建目标文件
-            }
-            //所有taskPo的json列表
-            List<String> localTaskStringList = getFileContext(localTaskPath);
-
-            //只留下update里没有的task
-            List<TaskPo> localTaskList = localTaskStringList.stream()
-                    .map(taskString -> JSONObject.parseObject(taskString, TaskPo.class))
-                    .filter(task -> !activeTaskIdList.contains(task.getTaskId()))
-                    .collect(Collectors.toList());
-
-            //这里最好在mapper写个按id列表查询
-            for (Integer activeId : activeTaskIdList) {
-                TaskPo taskPo = taskPoMapper.selectByPrimaryKey(activeId);
-                if(!Objects.isNull(taskPo)){
-                    localTaskList.add(taskPo);
+        //没有新的就不用拉了
+        if(Strings.isNotBlank(activeTaskList)){
+            //        activeTaskList = "[1,2,3,4]";
+            List<Integer> activeTaskIdList = JSON.parseArray(activeTaskList, Integer.class);
+            //        String localTaskPath = "./localTasks.txt";
+            File localTasks = new File(LOCALTASKPATH);
+            List<TaskPo> localTaskList = new ArrayList<>();
+            try {
+                // 检查目标文件是否存在，不存在则创建
+                if (!localTasks.exists()) {
+                    localTasks.createNewFile();// 创建目标文件
                 }
+                //所有taskPo的json列表
+                localTaskList = getFileContext(LOCALTASKPATH);
+
+                //            update probe_po set task_list = '[1,2,3,4]', active_task_list = '[3,5]' where probe_id = '1'
+
+                //只留下update里没有的task
+                localTaskList = localTaskList.stream()
+                        .filter(task -> !activeTaskIdList.contains(task.getTaskId()))
+                        .collect(Collectors.toList());
+
+                //这里最好在mapper写个按id列表查询
+                for (Integer activeId : activeTaskIdList) {
+                    TaskPo taskPo = taskPoMapper.selectByPrimaryKey(activeId);
+                    if(!Objects.isNull(taskPo)){
+                        localTaskList.add(taskPo);
+                    }
+                }
+
+                //更新probe列表
+                List<Integer> newProbetaskList=
+                        localTaskList.stream().map(TaskPo::getTaskId).collect(Collectors.toList());
+
+                String probeTaskList = JSON.toJSONString(newProbetaskList);
+
+                ProbePo probePo = new ProbePo();
+                probePo.setProbeId(probeId);
+                probePo.setActiveTaskList("");
+                probePo.setTaskList(probeTaskList);
+
+                probePoMapper.updateByPrimaryKeySelective(probePo);
+
+                //写回文件
+                writeFileContext(localTaskList, LOCALTASKPATH);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
 
-            //更新probe列表
-            List<Integer> newProbetaskList=
-                    localTaskList.stream().map(TaskPo::getTaskId).collect(Collectors.toList());
 
-            String probeTaskList = JSON.toJSONString(newProbetaskList);
+        //            //跑任务
+        //            for(int i = 0; i < 3; i++){
+        //                int size = localTaskList.size();
+        //                int fromIndex = i * MAXCONCURRENT;
+        //                int toIndex = (i+1) * MAXCONCURRENT;
+        //                List<TaskPo> taskPoList = localTaskList.subList(fromIndex < size?fromIndex:size, toIndex>size?size:toIndex);
+        //                runTasks(taskPoList);
+        //
+        //            }
 
-            ProbePo probePo = new ProbePo();
-            probePo.setProbeId(probeId);
-            probePo.setActiveTaskList("");
-            probePo.setTaskList(probeTaskList);
 
-            probePoMapper.updateByPrimaryKeySelective(probePo);
+    }
 
-            //写回文件
-            localTaskStringList = localTaskList.stream().map(JSONObject::toJSONString).collect(Collectors.toList());
-            writeFileContext(localTaskStringList, localTaskPath);
-        } catch (Exception e) {
-            e.printStackTrace();
+    //同时开启limit个docker去运行10个任务
+    private void runTasks(List<TaskPo> taskPoList){
+        for(TaskPo task : taskPoList){
+            runTask(task);
         }
     }
 
-    //从文件按行读入列表
-    public static List<String> getFileContext(String path) throws Exception {
+    //启动docker运行脚本
+    @Async
+    private void runTask(TaskPo task){
+
+    }
+
+    //从文件按行读取任务列表
+    public static List<TaskPo> getFileContext(String path) throws Exception {
         FileReader fileReader =new FileReader(path);
         BufferedReader bufferedReader =new BufferedReader(fileReader);
         List<String> list =new ArrayList<>();
@@ -114,16 +147,17 @@ public class ScheduledProbeTaskService {
                 list.add(str);
             }
         }
-        return list;
+        return list.stream().map(taskString -> JSONObject.parseObject(taskString, TaskPo.class)).collect(Collectors.toList());
     }
 
-    //将列表按行写入文件
-    public static void writeFileContext(List<String>  strings, String path) throws Exception {
+    //将任务列表按行写入文件
+    public static void writeFileContext(List<TaskPo> taskPoList, String path) throws Exception {
         File file = new File(path);
         //如果没有文件就创建
         if (!file.isFile()) {
             file.createNewFile();
         }
+        List<String> strings = taskPoList.stream().map(JSONObject::toJSONString).collect(Collectors.toList());
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
         if(System.getProperty("os.name").equals("Windows")){
             for (String l:strings){
@@ -134,7 +168,6 @@ public class ScheduledProbeTaskService {
                 writer.write(l + "\n");
             }
         }
-
         writer.close();
     }
 

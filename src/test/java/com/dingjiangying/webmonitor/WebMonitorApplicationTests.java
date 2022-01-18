@@ -1,5 +1,7 @@
 package com.dingjiangying.webmonitor;
 
+import java.sql.Connection;
+import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +16,8 @@ class WebMonitorApplicationTests {
 //    @Autowired
 //    private TaskPo taskPo;
 //
-//    @Autowired
-//    DataSource dataSource;
+    @Autowired
+    DataSource dataSource;
 
     @Autowired
     JavaMailSenderImpl javaMailSender;
@@ -23,10 +25,10 @@ class WebMonitorApplicationTests {
     @Test
     void contextLoads() throws SQLException {
 //        System.out.println(task);
-//        Connection connection = dataSource.getConnection();
-//        System.out.println(connection);
-//        connection.close();
-        testMail();
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
+        connection.close();
+//        testMail();
     }
 
     private void testMail(){
