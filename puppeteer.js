@@ -15,6 +15,8 @@ const puppeteerHar = require('puppeteer-har');
         path: process.argv[3]+ '/' + 'network.har',
     });
 
+    await page.setCacheEnabled(false);
+
     await page.goto(process.argv[2],{waitUntil:"networkidle2"});
 
     await autoScroll(page);

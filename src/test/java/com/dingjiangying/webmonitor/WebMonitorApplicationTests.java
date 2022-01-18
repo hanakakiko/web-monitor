@@ -35,7 +35,7 @@ class WebMonitorApplicationTests {
 //        System.out.println(connection);
 //        connection.close();
 //        testMail();
-        testPuppeteer();
+//        testPuppeteer();
         scheduledProbeTaskService.pullTasks();
     }
 
