@@ -1,5 +1,8 @@
 package com.dingjiangying.webmonitor;
 
+import com.dingjiangying.webmonitor.po.TaskPo;
+import com.dingjiangying.webmonitor.service.ScheduledProbeTaskService;
+import de.sstoehr.harreader.HarReaderException;
 import java.sql.Connection;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
@@ -20,15 +23,26 @@ class WebMonitorApplicationTests {
     DataSource dataSource;
 
     @Autowired
+    ScheduledProbeTaskService scheduledProbeTaskService;
+
+    @Autowired
     JavaMailSenderImpl javaMailSender;
 
     @Test
-    void contextLoads() throws SQLException {
+    void contextLoads() throws SQLException, HarReaderException {
 //        System.out.println(task);
-        Connection connection = dataSource.getConnection();
-        System.out.println(connection);
-        connection.close();
+//        Connection connection = dataSource.getConnection();
+//        System.out.println(connection);
+//        connection.close();
 //        testMail();
+        testPuppeteer();
+    }
+
+    private void testPuppeteer() throws HarReaderException {
+        TaskPo taskPo = new TaskPo();
+        taskPo.setTaskId(500);
+        taskPo.setTaskUrl("https://www.baidu.com");
+        scheduledProbeTaskService.runTask(taskPo);
     }
 
     private void testMail(){

@@ -1,7 +1,10 @@
 package com.dingjiangying.webmonitor.po;
 
 import java.util.Date;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+@Data
 public class LogPo {
     private Integer logId;
 
@@ -31,9 +34,19 @@ public class LogPo {
     private Long totalTime;
 
     /**
-     * 执行任务状态码（200ok还是别的）
+     * 执行任务状态码（只有0和1），hasHandled为1的时候才起效，违背告警规则为1，没有为0
      */
     private Integer errorCode;
+
+    /**
+     * 资源的200OK率
+     */
+    private Double availability;
+
+    /**
+     * 资源总数
+     */
+    private Integer totalNum;
 
     /**
      * 执行puppeteer脚本的输出，在数据库某个目录下为每个logId建一个目录存放它的输出，里面可能有.har文件，可能有.jpg，.pdf
