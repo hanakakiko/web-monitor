@@ -27,8 +27,9 @@ public class ProbeController {
 
     @GetMapping("/pulltask/{probe_id}")
     @ResponseBody
-    public String getTaskList(@PathVariable("probe_id") Integer probeId, Model model, HttpSession session) {
-        scheduledProbeTaskService.pullTasks(probeId);
+    public String getTaskList(@PathVariable("probe_id") Integer probeId, Model model, HttpSession session)
+            throws Exception {
+        scheduledProbeTaskService.pullTasks();
         return "task";
     }
     //
