@@ -132,7 +132,7 @@ public class ScheduledProbeTaskService {
 
                 ProbePo probePo = new ProbePo();
                 probePo.setProbeId(PROBEID);
-                probePo.setActiveTaskList("");
+                probePo.setActiveTaskList("[]");
                 probePo.setTaskList(probeTaskList);
 
                 probePoMapper.updateByPrimaryKeySelective(probePo);
