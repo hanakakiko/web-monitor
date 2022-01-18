@@ -62,7 +62,7 @@ public class TaskController {
                 vo.setTaskName(po.getTaskName());
                 vo.setTaskUrl(po.getTaskUrl());
                 vo.setTaskId(po.getTaskId());
-
+                vo.setHasHuddled(po.getHasHuddled());
 //                Util.getCurrentTime()
                 if (po.getCreateTime() != null) {
                     vo.setCreateTime(Util.dateToString(po.getCreateTime()));
@@ -110,6 +110,7 @@ public class TaskController {
 
         taskPo.setUserId(currentUserId);
         taskPo.setCreateTime(new Date());
+        taskPo.setHasHuddled(0);
 //        taskinfo.setCreateTime(Util.getCurrentTime());
         taskMapper.insert(taskPo);
 //        System.out.println(taskinfo);

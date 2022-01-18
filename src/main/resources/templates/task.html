@@ -95,6 +95,7 @@
 <!--                        <th>告警规则</th>-->
                         <th>状态</th>
                         <th>操作</th>
+                        <th>日志</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -104,6 +105,15 @@
                         <td th:text="${task.getTaskUrl()}"></td>
                         <td th:text="${task.getProbeListNames()}"></td>
                         <td th:text="${task.getCreateTime()}"></td>
+                        <td th:if="${task.getHasHuddled()} eq 0">
+                            <span class="btn btn-info">待处理</span>
+                        </td>
+                        <td th:if="${task.getHasHuddled()} eq 1">
+                            <span class="btn btn-success">已调度</span>
+                        </td>
+                        <td>
+                            <a th:href="@{'/log/task/'+${task.getTaskId()}}">查看log</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

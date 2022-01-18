@@ -10,9 +10,9 @@
     <div class="container">
         <form class="form-horizontal" th:action="@{/contact}" method="post" th:object="${newContact}">
             <div class="form-group">
-                <p th:if="${error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">
-                    登录错误，请重新输入！</p>
-                <p th:if="${success}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px"> 登录成功！</p>
+                <p th:if="${error}" th:text="${error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">
+                    </p>
+                <p th:if="${success}" th:text="${success}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px"></p>
                 <label for="inputUsername3" class="col-sm-2 control-label">邮箱</label>
                 <div class="col-sm-10">
                     <input name="mail" type="username" class="form-control" id="inputUsername3"
