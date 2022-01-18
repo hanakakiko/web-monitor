@@ -5,7 +5,8 @@
 
 <generatorConfiguration>
     <!--mysql 连接数据库jar 这里选择自己本地位置-->
-    <classPathEntry location="/Users/dingjiangying/.m2/repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar" />
+<!--    <classPathEntry location="/Users/dingjiangying/.m2/repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar" />-->
+    <classPathEntry location="/Users/anyang/.m2/repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar" />
     <!--                location="/Users/dingjiangying/.m2/repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar" />-->
 
     <context id="testTables" targetRuntime="MyBatis3">

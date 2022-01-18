@@ -10,6 +10,8 @@
     <result column="total_time" property="totalTime" jdbcType="BIGINT" />
     <result column="error_code" property="errorCode" jdbcType="INTEGER" />
     <result column="script_output_path" property="scriptOutputPath" jdbcType="VARCHAR" />
+    <result column="availability" property="availability" jdbcType="DOUBLE" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    log_id, probe_id, task_id, timestamp, has_handled, total_time, error_code, script_output_path
+    log_id, probe_id, task_id, timestamp, has_handled, total_time, error_code, script_output_path, 
+    availability, total_num
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dingjiangying.webmonitor.po.LogPoExample" >
     select
@@ -105,10 +108,12 @@
   <insert id="insert" parameterType="com.dingjiangying.webmonitor.po.LogPo" >
     insert into log_po (log_id, probe_id, task_id, 
       timestamp, has_handled, total_time, 
-      error_code, script_output_path)
+      error_code, script_output_path, availability, 
+      total_num)
     values (#{logId,jdbcType=INTEGER}, #{probeId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
       #{timestamp,jdbcType=TIMESTAMP}, #{hasHandled,jdbcType=INTEGER}, #{totalTime,jdbcType=BIGINT}, 
-      #{errorCode,jdbcType=INTEGER}, #{scriptOutputPath,jdbcType=VARCHAR})
+      #{errorCode,jdbcType=INTEGER}, #{scriptOutputPath,jdbcType=VARCHAR}, #{availability,jdbcType=DOUBLE}, 
+      #{totalNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.LogPo" >
     insert into log_po
@@ -137,6 +142,12 @@
       <if test="scriptOutputPath != null" >
         script_output_path,
       </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="totalNum != null" >
+        total_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="logId != null" >
@@ -162,6 +173,12 @@
       </if>
       <if test="scriptOutputPath != null" >
         #{scriptOutputPath,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=DOUBLE},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -198,6 +215,12 @@
       <if test="record.scriptOutputPath != null" >
         script_output_path = #{record.scriptOutputPath,jdbcType=VARCHAR},
       </if>
+      <if test="record.availability != null" >
+        availability = #{record.availability,jdbcType=DOUBLE},
+      </if>
+      <if test="record.totalNum != null" >
+        total_num = #{record.totalNum,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +235,9 @@
       has_handled = #{record.hasHandled,jdbcType=INTEGER},
       total_time = #{record.totalTime,jdbcType=BIGINT},
       error_code = #{record.errorCode,jdbcType=INTEGER},
-      script_output_path = #{record.scriptOutputPath,jdbcType=VARCHAR}
+      script_output_path = #{record.scriptOutputPath,jdbcType=VARCHAR},
+      availability = #{record.availability,jdbcType=DOUBLE},
+      total_num = #{record.totalNum,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +266,12 @@
       <if test="scriptOutputPath != null" >
         script_output_path = #{scriptOutputPath,jdbcType=VARCHAR},
       </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=DOUBLE},
+      </if>
+      <if test="totalNum != null" >
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
     </set>
     where log_id = #{logId,jdbcType=INTEGER}
   </update>
@@ -252,7 +283,9 @@
       has_handled = #{hasHandled,jdbcType=INTEGER},
       total_time = #{totalTime,jdbcType=BIGINT},
       error_code = #{errorCode,jdbcType=INTEGER},
-      script_output_path = #{scriptOutputPath,jdbcType=VARCHAR}
+      script_output_path = #{scriptOutputPath,jdbcType=VARCHAR},
+      availability = #{availability,jdbcType=DOUBLE},
+      total_num = #{totalNum,jdbcType=INTEGER}
     where log_id = #{logId,jdbcType=INTEGER}
   </update>
 </mapper>

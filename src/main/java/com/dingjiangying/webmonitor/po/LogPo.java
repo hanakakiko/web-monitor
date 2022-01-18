@@ -1,10 +1,7 @@
 package com.dingjiangying.webmonitor.po;
 
 import java.util.Date;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-@Data
 public class LogPo {
     private Integer logId;
 
@@ -39,6 +36,11 @@ public class LogPo {
     private Integer errorCode;
 
     /**
+     * 执行puppeteer脚本的输出，在数据库某个目录下为每个logId建一个目录存放它的输出，里面可能有.har文件，可能有.jpg，.pdf
+     */
+    private String scriptOutputPath;
+
+    /**
      * 资源的200OK率
      */
     private Double availability;
@@ -47,11 +49,6 @@ public class LogPo {
      * 资源总数
      */
     private Integer totalNum;
-
-    /**
-     * 执行puppeteer脚本的输出，在数据库某个目录下为每个logId建一个目录存放它的输出，里面可能有.har文件，可能有.jpg，.pdf
-     */
-    private String scriptOutputPath;
 
     public Integer getLogId() {
         return logId;
@@ -115,5 +112,21 @@ public class LogPo {
 
     public void setScriptOutputPath(String scriptOutputPath) {
         this.scriptOutputPath = scriptOutputPath == null ? null : scriptOutputPath.trim();
+    }
+
+    public Double getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(Double availability) {
+        this.availability = availability;
+    }
+
+    public Integer getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(Integer totalNum) {
+        this.totalNum = totalNum;
     }
 }

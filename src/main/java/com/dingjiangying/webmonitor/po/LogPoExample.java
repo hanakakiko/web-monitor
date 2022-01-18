@@ -594,6 +594,126 @@ public class LogPoExample {
             addCriterion("script_output_path not between", value1, value2, "scriptOutputPath");
             return (Criteria) this;
         }
+
+        public Criteria andAvailabilityIsNull() {
+            addCriterion("availability is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityIsNotNull() {
+            addCriterion("availability is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityEqualTo(Double value) {
+            addCriterion("availability =", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityNotEqualTo(Double value) {
+            addCriterion("availability <>", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityGreaterThan(Double value) {
+            addCriterion("availability >", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityGreaterThanOrEqualTo(Double value) {
+            addCriterion("availability >=", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityLessThan(Double value) {
+            addCriterion("availability <", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityLessThanOrEqualTo(Double value) {
+            addCriterion("availability <=", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityIn(List<Double> values) {
+            addCriterion("availability in", values, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityNotIn(List<Double> values) {
+            addCriterion("availability not in", values, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityBetween(Double value1, Double value2) {
+            addCriterion("availability between", value1, value2, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityNotBetween(Double value1, Double value2) {
+            addCriterion("availability not between", value1, value2, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumIsNull() {
+            addCriterion("total_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumIsNotNull() {
+            addCriterion("total_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumEqualTo(Integer value) {
+            addCriterion("total_num =", value, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumNotEqualTo(Integer value) {
+            addCriterion("total_num <>", value, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumGreaterThan(Integer value) {
+            addCriterion("total_num >", value, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("total_num >=", value, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumLessThan(Integer value) {
+            addCriterion("total_num <", value, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumLessThanOrEqualTo(Integer value) {
+            addCriterion("total_num <=", value, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumIn(List<Integer> values) {
+            addCriterion("total_num in", values, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumNotIn(List<Integer> values) {
+            addCriterion("total_num not in", values, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumBetween(Integer value1, Integer value2) {
+            addCriterion("total_num between", value1, value2, "totalNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("total_num not between", value1, value2, "totalNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
