@@ -23,7 +23,7 @@ spring:
     username: root
     password: Dd1woshishei?jiangy
 #    password:
-    url: jdbc:mysql://localhost:3306/mywebmonitor?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://101.200.161.136:3306/mywebmonitor?useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
