@@ -67,7 +67,7 @@ public class DashBoardController {
 
         SummaryVo summaryVo = new SummaryVo();
         summaryVo.setAverageTime(String.valueOf(averageTotalTime)+"ms");
-        summaryVo.setAverageAvailability(String.format("%.2f", averageAvalibility)+"%");
+        summaryVo.setAverageAvailability(String.format("%.2f", averageAvalibility * 100)+"%");
 
         model.addAttribute("summary",summaryVo);
 

@@ -16,26 +16,25 @@
 
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
+                    <h4></h4>
+                    <span class="text-muted" ></span>
+                </div>
+                <div class="col-xs-8 col-sm-3 placeholder">
                     <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
 <!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
                     <h4>平均用时</h4>
-                    <span class="text-muted">${summary.averageTime}</span>
+                    <span class="text-muted" th:text="${summary.getAverageTime()}"></span>
                 </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <div class="col-xs-8 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
                     <h4>平均可用率</h4>
-                    <span class="text-muted">${summary.averageAvailability}</span>
+                    <span class="text-muted" th:text="${summary.getAverageAvailability()}"></span>
                 </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
+<!--                <div class="col-xs-6 col-sm-3 placeholder">-->
+<!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+<!--                    <h4>Label</h4>-->
+<!--                    <span class="text-muted">Something else</span>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
