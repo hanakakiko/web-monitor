@@ -1,5 +1,8 @@
 package com.dingjiangying.webmonitor.po;
 
+import lombok.Data;
+
+@Data
 public class AlertRulePo {
     private Integer alertId;
 
@@ -10,8 +13,14 @@ public class AlertRulePo {
 
     /**
      * 告警类型，枚举类，超时；可用率过低；未包含指定元素；包含了不允许的元素等
+     * @see(com.dingjiangying.webmonitor.enums.AlertTypeEnum)
      */
     private Integer alertType;
+
+    /**
+     * 单位ms的时间，单位%的可用率，或者元素名称列表
+     */
+    private String alertParam;
 
     /**
      * 有几个任务正在用它，为0才能删除
