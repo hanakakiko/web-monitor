@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,7 +72,7 @@ public class ScheduledProbeTaskService {
 
     public static final String LOCALLOGPATH = "./locallogs";
 
-    public static final Integer MAXCONCURRENT = 10;
+    public static final Integer MAXCONCURRENT = 3;
 
     public static final String REMOTEPATH = "root@101.200.161.136";
 
@@ -79,25 +80,31 @@ public class ScheduledProbeTaskService {
 
     public static Integer PROBEID = 2;
 
-    //@Scheduled(fixedRate = 60000)//一分钟拉一次
-//    @Async//和20s跑一波任务是异步的
-    public void pullTasks(Integer probeId) {
-        PROBEID = probeId;
+    public static Integer TIMEOUT = 20000;
+
+    @Scheduled(fixedRate = 60000)//一分钟拉一次
+    @Async
+    public void pullTasks() throws Exception {
         String activeTaskList = probePoMapper.selectByPrimaryKey(probeId).getActiveTaskList();
+
+//        activeTaskList = "[1,3,6,2]";
+        File localTasks = new File(LOCALTASKPATH);
+        if (!localTasks.exists()) {
+            localTasks.createNewFile();// 创建目标文件
+        }
+        //所有taskPo的json列表
+        List<TaskPo> localTaskList = getFileContext(LOCALTASKPATH);
         //没有新的就不用拉了
         if(Strings.isNotBlank(activeTaskList)){
             //        activeTaskList = "[1,2,3,4]";
             List<Integer> activeTaskIdList = JSON.parseArray(activeTaskList, Integer.class);
             //        String localTaskPath = "./localTasks.txt";
-            File localTasks = new File(LOCALTASKPATH);
-            List<TaskPo> localTaskList = new ArrayList<>();
+
+
             try {
                 // 检查目标文件是否存在，不存在则创建
-                if (!localTasks.exists()) {
-                    localTasks.createNewFile();// 创建目标文件
-                }
-                //所有taskPo的json列表
-                localTaskList = getFileContext(LOCALTASKPATH);
+
+
 
                 //            update probe_po set task_list = '[1,2,3,4]', active_task_list = '[3,5]' where probe_id = '1'
 
@@ -135,6 +142,8 @@ public class ScheduledProbeTaskService {
             }
         }
 
+        runTasks(localTaskList);
+
 
         //            //跑任务
         //            for(int i = 0; i < 3; i++){
@@ -149,15 +158,21 @@ public class ScheduledProbeTaskService {
 
     }
 
-    //同时开启limit个docker去运行10个任务
-    private void runTasks(List<TaskPo> taskPoList) throws HarReaderException {
-        for(TaskPo task : taskPoList){
-            runTask(task);
+    //同时开启limit个docker去运行MAXCONCURRENT个任务
+    @Async
+    private void runTasks(List<TaskPo> taskPoList) throws HarReaderException, InterruptedException {
+        int size = taskPoList.size();
+        if(size!=0){
+            int cycle = 60000 / size;
+            for(TaskPo task : taskPoList){
+                runTask(task);
+                sleep(cycle);
+            }
         }
     }
 
-    //启动docker运行脚本
-//    @Async
+    //运行单个任务
+    @Async
     public void runTask(TaskPo task) throws HarReaderException {
         File localLogs = new File(LOCALLOGPATH);
             // 检查目标文件是否存在，不存在则创建
@@ -190,7 +205,7 @@ public class ScheduledProbeTaskService {
         }
 
         //执行脚本
-        String commandStr = "node puppeteer.js "+task.getTaskUrl()+" "+thisLogPath;
+        String commandStr = "node puppeteer.js "+task.getTaskUrl()+" "+thisLogPath + " " + TIMEOUT;
         exeCmd(commandStr);
 
         LogPo logPo = new LogPo();

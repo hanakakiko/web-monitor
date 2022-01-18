@@ -29,13 +29,14 @@ class WebMonitorApplicationTests {
     JavaMailSenderImpl javaMailSender;
 
     @Test
-    void contextLoads() throws SQLException, HarReaderException {
+    void contextLoads() throws Exception {
 //        System.out.println(task);
 //        Connection connection = dataSource.getConnection();
 //        System.out.println(connection);
 //        connection.close();
 //        testMail();
         testPuppeteer();
+        scheduledProbeTaskService.pullTasks();
     }
 
     private void testPuppeteer() throws HarReaderException {
