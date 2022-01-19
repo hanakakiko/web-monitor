@@ -75,7 +75,7 @@ public class ScheduledAlertService {
 
     public static Integer PROBEID = null;
 
-    @Scheduled(fixedRate = 1000)//一秒钟检测一次
+//    @Scheduled(fixedRate = 1000)//一秒钟检测一次
     @Async
     public void checkLogAndAlert() throws Exception {
         List<LogPo> newLog = getNewLog();

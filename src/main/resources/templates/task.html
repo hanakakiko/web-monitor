@@ -16,7 +16,7 @@
             <h1 class="page-header">TaskList</h1>
 
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">添加任务</button>
-            <!-- 模态框（Modal） -->
+            <!-- 模态框（Modal） add task-->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -25,9 +25,6 @@
                             <h4 class="modal-title" id="myModalLabel">添加任务</h4>
                         </div>
                         <div class="modal-body">
-<!--                            user_id: <input type="text" id="user_id" name="user_id"/>-->
-<!--                            name: <input type="text" id="user_name" name="user_name"/>-->
-<!--                            <input type="hidden" id="act" value="add" name="act"/>-->
                             <form class="form-horizontal" th:action="@{/task/add_task_form}" method="post" th:object="${taskinfo}">
                                 <div class="form-group">
                                     <label for="taskName" class="col-sm-2 control-label">任务名称</label>
@@ -113,6 +110,8 @@
                         </td>
                         <td>
                             <a th:href="@{'/log/task/'+${task.getTaskId()}}">查看log</a>
+                            <a th:href="@{'/task/delete/'+${task.getTaskId()}}">删除</a>
+                            <a th:href="@{'/task/edit/'+${task.getTaskId()}}">编辑</a>
                         </td>
                     </tr>
                     </tbody>

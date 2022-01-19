@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProbeVo {
 
+    private Integer probeId;
+
     /**
      * 探针名称，管理员创建时输入
      */
@@ -30,4 +32,9 @@ public class ProbeVo {
      */
     private List<String> taskList;
 
+
+    /**
+     * 该probe的checkbox是否被选中，用于task视图
+     */
+    private Integer checked;
 }

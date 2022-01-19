@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{commons.html::head(~{::title})}">
+    <title>alert</title>
+</head>
+
+<body>
+
+<nav th:replace="~{commons::headbar(${currentUser})}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons.html::sidebar(current='task')}"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h1 class="page-header">编辑任务</h1>
+
+            <form class="form-horizontal" th:action="@{/task/edit_form/}" method="post" th:object="${taskinfo}">
+                <div class="form-group">
+                    <label for="taskName" class="col-sm-2 control-label">任务名称</label>
+                    <div class="col-sm-10">
+                        <input name="taskName" type="text" class="form-control" id="taskName" placeholder="请输入任务名" th:value="${task.getTaskName()}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskUrl" class="col-sm-2 control-label">url</label>
+                    <div class="col-sm-10">
+                        <input name="taskUrl" type="text" class="form-control" id="taskUrl" th:value="${task.getTaskUrl()}">
+                    </div>
+                </div>
+
+
+                <input name="taskId" type="hidden" id="taskId" th:value="${task.getTaskId()}">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Script:</label>
+                    <div class="col-sm-10">
+<!--                        todo script-->
+                        <textarea class="form-control col-sm-10" name="script" placeholder="输入要运行的脚本"></textarea>
+                    </div>
+                </div>
+
+                <!--                                <div class="form-group">-->
+                <!--                                    <label class="col-sm-2 control-label">探针列表</label>-->
+                <!--                                    <select name="" id=""></select>-->
+                <!--                                </div>-->
+
+                <div class="form-check">
+                    <label class="form-check-label" th:each="prob:${probs}">
+                        <!--                                        <input type="checkbox" th:field="${prob.getProbeName()}" class="form-check-input" value="" th:text="${prob.getProbeName()}">-->
+                        <!--                                        <input type="checkbox" th:field="${prob.getProbeName()}" class="form-check-input" th:text="${prob.getProbeName()}">-->
+                        <input type="checkbox" class="form-check-input" name="probeList" th:value="${prob.getProbeId()}" th:text="${prob.getProbeName()}" th:checked="${prob.getChecked()}">
+                    </label>
+                </div>
+                <!--&lt;!&ndash;                                <div class="form-check">&ndash;&gt;-->
+                <!--&lt;!&ndash;                                    <label class="form-check-label">&ndash;&gt;-->
+                <!--&lt;!&ndash;                                        <input type="checkbox" class="form-check-input" value="">Option 2&ndash;&gt;-->
+                <!--&lt;!&ndash;                                    </label>&ndash;&gt;-->
+                <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button class="btn btn-primary" type="submit">提交更改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/dist/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/vendor/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
