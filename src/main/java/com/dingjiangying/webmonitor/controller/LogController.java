@@ -6,6 +6,8 @@ import com.dingjiangying.webmonitor.dao.UserPoMapper;
 import com.dingjiangying.webmonitor.po.*;
 import com.dingjiangying.webmonitor.util.Util;
 import com.dingjiangying.webmonitor.vo.LogVo;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/log")
@@ -56,6 +59,7 @@ public class LogController {
             logVos.add(vo);
         }
         model.addAttribute("logs", logVos);
+        model.addAttribute("tag","task");
 //        System.out.println(taskId);
         return "log";
     }
@@ -102,8 +106,60 @@ public class LogController {
             logVos.add(vo);
         }
         model.addAttribute("logs", logVos);
+        model.addAttribute("tag","probe");
         //        System.out.println(taskId);
         return "log";
     }
+
+    /**
+     * 目的是在点击下载的时候拉到本地，但不跳转页面，不知道怎么搞
+     * @param logId
+     * @param model
+     */
+    @RequestMapping("download/{logId}/{tag}")
+    public String download(@PathVariable("logId") Integer logId, @PathVariable("tag") String tag, Model model){
+        //拉取全部该日志的全部输出
+        LogPo logPo = logMapper.selectByPrimaryKey(logId);
+        String scriptOutputPath = logPo.getScriptOutputPath();
+        String localPath = scriptOutputPath.substring(scriptOutputPath.indexOf("probeLogs"),
+                scriptOutputPath.lastIndexOf("/"));
+        String timeStamp = scriptOutputPath.substring(scriptOutputPath.lastIndexOf("/"));
+        String cmd = "mkdir -p "+localPath;
+        exeCmd(cmd);
+        cmd = "scp -r " + scriptOutputPath + " " + localPath;
+        exeCmd(cmd);
+//        cmd = "rm -rf probeLogs";
+        model.addAttribute("myPath",localPath+timeStamp);
+        model.addAttribute("tag",tag);
+        return "logOutput";
+    }
+
+    public static void exeCmd(String commandStr) {
+        BufferedReader br = null;
+        try {
+            Process p = Runtime.getRuntime().exec(commandStr);
+            br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (br != null)
+            {
+                try {
+                    br.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
 }

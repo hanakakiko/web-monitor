@@ -69,7 +69,7 @@ public class ScheduledProbeTaskService {
 
     public static Integer TIMEOUT = 20000;
 
-    @Scheduled(fixedRate = 60000)//一分钟拉一次
+    //@Scheduled(fixedRate = 60000)//一分钟拉一次
     @Async
     public void pullTasks() throws Exception {
         if(PROBEID==null){
