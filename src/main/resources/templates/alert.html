@@ -80,7 +80,9 @@
                     <tr th:each="alert:${alerts}">
                         <td th:text="${alert.getAlertId()}"></td>
                         <td th:text="${alert.getAlertName()}"></td>
-                        <td th:text="${alert.getAlertType()}"></td>
+                        <td th:if="${alert.getAlertType()} eq 0">超时</td>
+                        <td th:if="${alert.getAlertType()} eq 1">可用率低</td>
+<!--                        <td th:text="${alert.getAlertType()}"></td>-->
                         <td th:text="${alert.getAlertParam()}"></td>
                         <td th:text="${alert.getTaskCount()}"></td>
                         <td>
