@@ -53,8 +53,10 @@
 <!--                                    <select name="" id=""></select>-->
 <!--                                </div>-->
 
+
                                 <div class="form-check">
-                                    <label class="form-check-label" th:each="prob:${probs}">
+                                    选择探针:
+                                    <label class="form-check-label " th:each="prob:${probs}">
                                         <!--                                        <input type="checkbox" th:field="${prob.getProbeName()}" class="form-check-input" value="" th:text="${prob.getProbeName()}">-->
                                         <!--                                        <input type="checkbox" th:field="${prob.getProbeName()}" class="form-check-input" th:text="${prob.getProbeName()}">-->
                                         <input type="checkbox" class="form-check-input" name="probeList" th:value="${prob.getProbeId()}" th:text="${prob.getProbeName()}">
@@ -62,6 +64,7 @@
                                 </div>
 
                                 <div class="form-check">
+                                    选择告警规则:
                                     <label class="form-check-label" th:each="alert:${alert_rules}">
                                         <input type="checkbox" class="form-check-input" name="alertRuleList" th:value="${alert.getAlertId()}" th:text="${alert.getAlertName()}">
                                     </label>

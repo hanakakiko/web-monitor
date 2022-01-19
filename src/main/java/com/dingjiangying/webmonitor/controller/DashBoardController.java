@@ -13,6 +13,7 @@ import com.dingjiangying.webmonitor.util.Util;
 import com.dingjiangying.webmonitor.vo.SummaryVo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.OptionalDouble;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -59,44 +61,46 @@ public class DashBoardController {
         List<TaskPo> taskPos = taskPoMapper.selectByExample(taskPoExample);
         List<Integer> taskIds = taskPos.stream().map(TaskPo::getTaskId).collect(Collectors.toList());
 
-        //找这些任务的全部日志
-        LogPoExample logPoExample = new LogPoExample();
-        LogPoExample.Criteria logPoExampleCriteria = logPoExample.createCriteria();
-        logPoExample.setOrderByClause("timestamp ASC");
-
-        List<LogPo> logPos = logPoMapper.selectByExample(logPoExample);
-
-        List<String> logDates = logPos.stream().map(x -> {
-            SimpleDateFormat sformat = new SimpleDateFormat("MM-dd hh:mm");//日期格式
-            String tiem = "'" + sformat.format(x.getTimestamp()) + "'";
-            return tiem;
-//            return "'" + Util.dateToString(x.getTimestamp()) + "'";
-        }).collect(Collectors.toList());
-
-//        List<String> logDates = logPos.stream().map(x ->
-//                Util.dateToString(x.getTimestamp())
-//        ).collect(Collectors.toList());
-
-        List<Long> logTimeCosts = logPos.stream().map(LogPo::getTotalTime).collect(Collectors.toList());
-
-        List<Double> logAvailability=logPos.stream().map(LogPo::getAvailability).collect(Collectors.toList());
-
-        int averageTotalTime = 0;
-        double averageAvalibility = 0.;
-        if (logPos.size() > 0) {
-            averageTotalTime = (int) logPos.stream().mapToLong(LogPo::getTotalTime).average().getAsDouble();
-            averageAvalibility = logPos.stream().mapToDouble(LogPo::getAvailability).average().getAsDouble();
-        }
-
         SummaryVo summaryVo = new SummaryVo();
-        summaryVo.setAverageTime(String.valueOf(averageTotalTime) + "ms");
-        summaryVo.setAverageAvailability(String.format("%.2f", averageAvalibility * 100) + "%");
 
-        model.addAttribute("summary", summaryVo);
+
+        List<Long> logTimeCosts=new ArrayList<>();
+        List<Double> logAvailability=new ArrayList<>();
+        List<String> logDates=new ArrayList<>();
+        if(!CollectionUtils.isEmpty(taskIds)){
+            //找这些任务的全部日志
+            LogPoExample logPoExample = new LogPoExample();
+            LogPoExample.Criteria logPoExampleCriteria = logPoExample.createCriteria();
+            logPoExampleCriteria.andTaskIdIn(taskIds);
+            logPoExample.setOrderByClause("timestamp ASC");
+            List<LogPo> logPos = logPoMapper.selectByExample(logPoExample);
+            if(!CollectionUtils.isEmpty(logPos)){
+                int averageTotalTime = (int) logPos.stream().mapToLong(LogPo::getTotalTime).average().getAsDouble();
+
+                double averageAvalibility = logPos.stream().mapToDouble(LogPo::getAvailability).average().getAsDouble();
+
+                summaryVo.setAverageTime(String.valueOf(averageTotalTime)+"ms");
+                summaryVo.setAverageAvailability(String.format("%.2f", averageAvalibility * 100)+"%");
+
+                logDates = logPos.stream().map(x -> {
+                    SimpleDateFormat sformat = new SimpleDateFormat("MM-dd hh:mm");//日期格式
+                    String tiem = "'" + sformat.format(x.getTimestamp()) + "'";
+                    return tiem;
+                }).collect(Collectors.toList());
+
+                logTimeCosts = logPos.stream().map(LogPo::getTotalTime).collect(Collectors.toList());
+
+                logAvailability=logPos.stream().map(LogPo::getAvailability).collect(Collectors.toList());
+
+            }
+
+        }
 
         model.addAttribute("logDates", logDates);
         model.addAttribute("logTimeCosts", logTimeCosts);
         model.addAttribute("logAvailability", logAvailability);
+
+        model.addAttribute("summary", summaryVo);
 
         return "monitor";
     }

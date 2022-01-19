@@ -2,3 +2,4 @@
 {"taskId":4,"taskName":"2","taskUrl":"https://www.baidu.com"}
 {"taskId":5,"taskName":"3","taskUrl":"https://www.baidu.com"}
 {"taskId":6,"taskName":"4","taskUrl":"https://www.taobao.com"}
+{"cityList":"[1,2,3,4,5]","createTime":1642609769000,"hasHuddled":1,"taskId":10,"taskName":"test11","taskUrl":"https://www.taobao.com","umpdateTime":1642610132000,"userId":9}
