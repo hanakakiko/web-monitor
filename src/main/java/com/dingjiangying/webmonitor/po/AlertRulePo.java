@@ -1,8 +1,5 @@
 package com.dingjiangying.webmonitor.po;
 
-import lombok.Data;
-
-@Data
 public class AlertRulePo {
     private Integer alertId;
 
@@ -18,14 +15,14 @@ public class AlertRulePo {
     private Integer alertType;
 
     /**
-     * 单位ms的时间，单位%的可用率，或者元素名称列表
-     */
-    private String alertParam;
-
-    /**
      * 有几个任务正在用它，为0才能删除
      */
     private Integer taskCount;
+
+    /**
+     * 单位ms的时间，单位%的可用率，或者元素名称列表
+     */
+    private String alertParam;
 
     public Integer getAlertId() {
         return alertId;
@@ -57,5 +54,13 @@ public class AlertRulePo {
 
     public void setTaskCount(Integer taskCount) {
         this.taskCount = taskCount;
+    }
+
+    public String getAlertParam() {
+        return alertParam;
+    }
+
+    public void setAlertParam(String alertParam) {
+        this.alertParam = alertParam == null ? null : alertParam.trim();
     }
 }

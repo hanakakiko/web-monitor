@@ -353,6 +353,76 @@ public class AlertRulePoExample {
             addCriterion("task_count not between", value1, value2, "taskCount");
             return (Criteria) this;
         }
+
+        public Criteria andAlertParamIsNull() {
+            addCriterion("alert_param is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamIsNotNull() {
+            addCriterion("alert_param is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamEqualTo(String value) {
+            addCriterion("alert_param =", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamNotEqualTo(String value) {
+            addCriterion("alert_param <>", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamGreaterThan(String value) {
+            addCriterion("alert_param >", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamGreaterThanOrEqualTo(String value) {
+            addCriterion("alert_param >=", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamLessThan(String value) {
+            addCriterion("alert_param <", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamLessThanOrEqualTo(String value) {
+            addCriterion("alert_param <=", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamLike(String value) {
+            addCriterion("alert_param like", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamNotLike(String value) {
+            addCriterion("alert_param not like", value, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamIn(List<String> values) {
+            addCriterion("alert_param in", values, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamNotIn(List<String> values) {
+            addCriterion("alert_param not in", values, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamBetween(String value1, String value2) {
+            addCriterion("alert_param between", value1, value2, "alertParam");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertParamNotBetween(String value1, String value2) {
+            addCriterion("alert_param not between", value1, value2, "alertParam");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

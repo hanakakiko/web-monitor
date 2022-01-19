@@ -6,6 +6,7 @@
     <result column="alert_name" property="alertName" jdbcType="VARCHAR" />
     <result column="alert_type" property="alertType" jdbcType="INTEGER" />
     <result column="task_count" property="taskCount" jdbcType="INTEGER" />
+    <result column="alert_param" property="alertParam" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    alert_id, alert_name, alert_type, task_count
+    alert_id, alert_name, alert_type, task_count, alert_param
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dingjiangying.webmonitor.po.AlertRulePoExample" >
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="com.dingjiangying.webmonitor.po.AlertRulePo" >
     insert into alert_rule_po (alert_id, alert_name, alert_type, 
-      task_count)
+      task_count, alert_param)
     values (#{alertId,jdbcType=INTEGER}, #{alertName,jdbcType=VARCHAR}, #{alertType,jdbcType=INTEGER}, 
-      #{taskCount,jdbcType=INTEGER})
+      #{taskCount,jdbcType=INTEGER}, #{alertParam,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.AlertRulePo" >
     insert into alert_rule_po
@@ -119,6 +120,9 @@
       <if test="taskCount != null" >
         task_count,
       </if>
+      <if test="alertParam != null" >
+        alert_param,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="alertId != null" >
@@ -132,6 +136,9 @@
       </if>
       <if test="taskCount != null" >
         #{taskCount,jdbcType=INTEGER},
+      </if>
+      <if test="alertParam != null" >
+        #{alertParam,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.taskCount != null" >
         task_count = #{record.taskCount,jdbcType=INTEGER},
       </if>
+      <if test="record.alertParam != null" >
+        alert_param = #{record.alertParam,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set alert_id = #{record.alertId,jdbcType=INTEGER},
       alert_name = #{record.alertName,jdbcType=VARCHAR},
       alert_type = #{record.alertType,jdbcType=INTEGER},
-      task_count = #{record.taskCount,jdbcType=INTEGER}
+      task_count = #{record.taskCount,jdbcType=INTEGER},
+      alert_param = #{record.alertParam,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="taskCount != null" >
         task_count = #{taskCount,jdbcType=INTEGER},
       </if>
+      <if test="alertParam != null" >
+        alert_param = #{alertParam,jdbcType=VARCHAR},
+      </if>
     </set>
     where alert_id = #{alertId,jdbcType=INTEGER}
   </update>
@@ -190,7 +204,8 @@
     update alert_rule_po
     set alert_name = #{alertName,jdbcType=VARCHAR},
       alert_type = #{alertType,jdbcType=INTEGER},
-      task_count = #{taskCount,jdbcType=INTEGER}
+      task_count = #{taskCount,jdbcType=INTEGER},
+      alert_param = #{alertParam,jdbcType=VARCHAR}
     where alert_id = #{alertId,jdbcType=INTEGER}
   </update>
 </mapper>
