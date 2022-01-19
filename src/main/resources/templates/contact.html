@@ -8,6 +8,7 @@
 <nav th:replace="~{commons::headbar(${currentUser})}"></nav>
 <div class="jumbotron">
     <div class="container">
+        <div th:replace="~{commons.html::sidebar(current='contact')}"></div>
         <form class="form-horizontal" th:action="@{/contact}" method="post" th:object="${newContact}">
             <div class="form-group">
                 <p th:if="${error}" th:text="${error}" class="col-sm-offset-2 col-sm-10" style="color: darkred; font-size: 14px">

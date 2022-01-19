@@ -70,10 +70,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="./green.html">Dashboard</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Help</a></li>
+<!--                <li><a href="./green.html">Dashboard</a></li>-->
+<!--                <li><a href="#">Settings</a></li>-->
+<!--                <li><a href="#">Profile</a></li>-->
+<!--                <li><a href="#">Help</a></li>-->
                 <li><a href="#">
                     <form th:action="@{/logout_form}" method="post">
                         <input th:if="${currentUser} ne '游客'" type="submit" name="logout" value="退出">
@@ -81,9 +81,9 @@
                 </a></li>
 
             </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Search...">
-            </form>
+<!--            <form class="navbar-form navbar-right">-->
+<!--                <input type="text" class="form-control" placeholder="Search...">-->
+<!--            </form>-->
         </div>
     </div>
 </nav>

@@ -12,7 +12,7 @@
     <div class="row">
         <div th:replace="~{commons.html::sidebar(current='dashboard')}"></div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Dashboard</h1>
+            <h1 class="page-header">监控大盘</h1>
 
             <p th:if="${summary.getAverageTime()} eq NULL" class="col-sm-10"
                style="color: darkred; font-size: 14px">暂无可汇总的日志!</p>
