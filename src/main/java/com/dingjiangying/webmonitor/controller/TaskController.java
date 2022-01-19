@@ -55,6 +55,16 @@ public class TaskController {
         for (int i = 0; i < probePos.size(); i++) {
             probNameMap.put(probePos.get(i).getProbeId(), probePos.get(i).getProbeName());
         }
+
+        //获取alert的id和name的映射
+        Map<Integer, String> alertNameMap = new HashMap<>();
+        AlertRulePoExample alertRulePoExample1 = new AlertRulePoExample();
+        alertRulePoExample1.createCriteria().andUserIdEqualTo(currentUserId);
+        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample1);
+        for (int i = 0; i < alertRulePos.size(); i++) {
+            alertNameMap.put(alertRulePos.get(i).getAlertId(), alertRulePos.get(i).getAlertName());
+        }
+
         //todo 根据管理员
         if (currentUserId != null) {
             TaskPoExample taskPoExample = new TaskPoExample();
@@ -85,6 +95,20 @@ public class TaskController {
                     }
                 }
                 vo.setProbeListNames(probNames);
+
+                List<Integer> alertList = JSON.parseObject(po.getAlertId(), List.class);
+                String alertNames = "";
+                if (!CollectionUtils.isEmpty(alertList)) {
+                    for (int j = 0; j < alertList.size(); j++) {
+                        String alertName = alertNameMap.get(new Integer(alertList.get(j)));
+                        if (j != 0) {
+                            alertNames += ",";
+                        }
+                        alertNames += alertName;
+                    }
+                }
+                vo.setAlertListNames(alertNames);
+
                 taskVos.add(vo);
             }
 //        List<TaskPo> tasks = taskMapper.getTasks();
@@ -92,10 +116,10 @@ public class TaskController {
         }
 
 
-        model.addAttribute("probs", probePos);
-        AlertRulePoExample alertRulePoExample=new AlertRulePoExample();
-        alertRulePoExample.createCriteria().andUserIdEqualTo(currentUserId);
-        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample);
+//        model.addAttribute("probs", probePos);
+//        AlertRulePoExample alertRulePoExample=new AlertRulePoExample();
+//        alertRulePoExample.createCriteria().andUserIdEqualTo(currentUserId);
+//        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample);
 
         model.addAttribute("alert_rules",alertRulePos);
         model.addAttribute("currentUser", Util.getCurrentUserName(session));

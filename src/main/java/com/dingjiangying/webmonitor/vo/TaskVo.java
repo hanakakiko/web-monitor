@@ -37,6 +37,11 @@ public class TaskVo {
      */
     private String probeListNames;
 
+    /**
+     * AlertId转换成名字
+     */
+    private String alertListNames;
+
     //    /**
     //     * 探测频率，是个枚举类型，1min、5min、15min、60min等，暂时不用
     //     */
