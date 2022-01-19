@@ -10,7 +10,7 @@ public class AlertRulePo {
 
     /**
      * 告警类型，枚举类，超时；可用率过低；未包含指定元素；包含了不允许的元素等
-     * @see(com.dingjiangying.webmonitor.consts.AlertTypeConsts)
+     * @see(com.dingjiangying.webmonitor.enums.AlertTypeEnum)
      */
     private Integer alertType;
 
@@ -23,6 +23,8 @@ public class AlertRulePo {
      * 单位ms的时间，单位%的可用率，或者元素名称列表
      */
     private String alertParam;
+
+    private Integer userId;
 
     public Integer getAlertId() {
         return alertId;
@@ -62,5 +64,13 @@ public class AlertRulePo {
 
     public void setAlertParam(String alertParam) {
         this.alertParam = alertParam == null ? null : alertParam.trim();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
