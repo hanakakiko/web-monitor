@@ -68,7 +68,6 @@ public class Util {
     public static String dateToString(Date date) {
         SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd hh:mm");//日期格式
         String tiem = sformat.format(date);
-
         return tiem;
     }
 

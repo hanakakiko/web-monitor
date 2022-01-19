@@ -17,11 +17,11 @@
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
                     <h4></h4>
-                    <span class="text-muted" ></span>
+                    <span class="text-muted"></span>
                 </div>
                 <div class="col-xs-8 col-sm-3 placeholder">
                     <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-<!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+                    <!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
                     <h4>平均用时</h4>
                     <span class="text-muted" th:text="${summary.getAverageTime()}"></span>
                 </div>
@@ -30,20 +30,88 @@
                     <h4>平均可用率</h4>
                     <span class="text-muted" th:text="${summary.getAverageAvailability()}"></span>
                 </div>
-<!--                <div class="col-xs-6 col-sm-3 placeholder">-->
-<!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
-<!--                    <h4>Label</h4>-->
-<!--                    <span class="text-muted">Something else</span>-->
-<!--                </div>-->
+                <!--                <div class="col-xs-6 col-sm-3 placeholder">-->
+                <!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+                <!--                    <h4>Label</h4>-->
+                <!--                    <span class="text-muted">Something else</span>-->
+                <!--                </div>-->
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div id="costTimeChart" style="width:100%; height: 400px;"></div>
+                </div>
+                <div class="col-xs-6">
+                    <div id="avalibilityChart" style="width:100%; height: 400px;"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript" th:incline="javascript">
+    //指定图标的配置和数据
+    var costTimeOption = {
+        title: {
+            text: '执行任务用时'
+        },
+        tooltip: {},
+        legend: {
+            data: ['执行任务用时']
+        },
+        xAxis: {
+            data: [(${logDates})]
+        },
+        yAxis: {},
+        series: [{
+            name: '用时ms',
+            type: 'line',
+            data: [[${logTimeCosts}]],
+            color:'#73c0de'
+        }]
+    };
+    //初始化echarts实例
+    var costTimeChart = echarts.init(document.getElementById('costTimeChart'));
 
+    //使用制定的配置项和数据显示图表
+    costTimeChart.setOption(costTimeOption);
+
+
+
+    var avalibilityOption = {
+        title: {
+            text: '可达率'
+        },
+        tooltip: {},
+        legend: {
+            data: ['执行任务用时']
+        },
+        xAxis: {
+            data: [(${logDates})]
+        },
+        yAxis: {},
+        series: [{
+            name: '用时ms',
+            type: 'line',
+            data: [[${logAvailability}]],
+            color:'#fc8452'
+        }]
+    };
+    //初始化echarts实例
+    var avalibilityChart = echarts.init(document.getElementById('avalibilityChart'));
+
+    //使用制定的配置项和数据显示图表
+    avalibilityChart.setOption(avalibilityOption);
+
+
+
+
+</script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/dist/js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
