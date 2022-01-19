@@ -109,9 +109,12 @@
                             <span class="btn btn-success">已调度</span>
                         </td>
                         <td>
-                            <a th:href="@{'/log/task/'+${task.getTaskId()}}">查看log</a>
                             <a th:href="@{'/task/delete/'+${task.getTaskId()}}">删除</a>
                             <a th:href="@{'/task/edit/'+${task.getTaskId()}}">编辑</a>
+                        </td>
+
+                        <td>
+                            <a th:href="@{'/log/task/'+${task.getTaskId()}}">查看log</a>
                         </td>
                     </tr>
                     </tbody>
