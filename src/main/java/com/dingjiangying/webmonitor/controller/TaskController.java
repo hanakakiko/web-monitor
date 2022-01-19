@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import com.dingjiangying.webmonitor.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -37,6 +38,9 @@ public class TaskController {
 
     @Autowired
     AlertService alertService;
+
+    @Autowired
+    UserService userService;
 
 
     @Autowired
@@ -212,8 +216,18 @@ public class TaskController {
             }
         }
 
-        List<AlertRuleVo> alertRuleVos=new ArrayList<>();
+        //获取告警规则列表
+        String alertRules = taskPo.getAlertId();
+        List<Integer> alertIds = JSON.parseArray(alertRules, Integer.class);
+        if(!CollectionUtils.isEmpty(alertIds)){
 
+        }
+        AlertRulePoExample alertRulePoExample = new AlertRulePoExample();
+        alertRulePoExample.createCriteria().andUserIdEqualTo(userService.selectUser(Util.getCurrentUserName(session)).getUserId());
+        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample);
+        model.addAttribute("alerts", alertRulePos);
+
+//        List<AlertRuleVo> alertRuleVos=new ArrayList<>();
         model.addAttribute("probs", probeVos);
 
         model.addAttribute("task", vo);
