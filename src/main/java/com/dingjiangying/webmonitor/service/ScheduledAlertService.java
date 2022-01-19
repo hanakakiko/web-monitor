@@ -46,6 +46,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Component
 @EnableScheduling
@@ -81,19 +82,24 @@ public class ScheduledAlertService {
 
     public static Integer PROBEID = null;
 
-    //@Scheduled(fixedRate = 5000)//一秒钟检测一次
+    @Scheduled(fixedRate = 5000)//一秒钟检测一次
     @Async
     public void checkLogAndAlert() throws Exception {
         List<LogPo> newLog = getNewLog();
         for (LogPo logPo : newLog) {
             Integer taskId = logPo.getTaskId();
             TaskPo taskPo = taskPoMapper.selectByPrimaryKey(taskId);
+
             if (taskPo == null) {
+                logPoMapper.deleteByPrimaryKey(logPo.getLogId());
 //                未找到
                 continue;
             }
             String taskName = taskPo.getTaskName();
             //todo alertId 是字符串 还可能有多个
+            if (!StringUtils.isEmpty(taskPo.getAlertId())) {
+                continue;
+            }
             List<Integer> alertIds = JSON.parseArray(taskPo.getAlertId(), Integer.class);
             if (!CollectionUtils.isEmpty(alertIds)) {
                 //查出所有告警规则

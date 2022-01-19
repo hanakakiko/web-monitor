@@ -150,7 +150,7 @@ public class ScheduledProbeTaskService {
 
     //同时开启limit个docker去运行MAXCONCURRENT个任务
     @Async
-    private void runTasks(List<TaskPo> taskPoList) throws HarReaderException, InterruptedException {
+    public void runTasks(List<TaskPo> taskPoList) throws HarReaderException, InterruptedException {
         int size = taskPoList.size();
         if(size!=0){
             int cycle = 60000 / size;

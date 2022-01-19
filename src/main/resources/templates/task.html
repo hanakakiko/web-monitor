@@ -65,7 +65,7 @@
 
                                 <div class="form-check">
                                     选择告警规则:
-                                    <label class="form-check-label" th:each="alert:${alert_rules}">
+                                    <label class="form-check-label" th:each="alert:${alerts}">
                                         <input type="checkbox" class="form-check-input" name="alertRuleList" th:value="${alert.getAlertId()}" th:text="${alert.getAlertName()}">
                                     </label>
                                 </div>

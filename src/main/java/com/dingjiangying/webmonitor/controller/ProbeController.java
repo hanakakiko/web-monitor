@@ -35,9 +35,11 @@ public class ProbeController {
     @RequestMapping("/list")
     public String getProbeList(Model model, HttpSession session) {
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
-//        Integer currentUserId = Util.getCurrentUserId(session);
+        Integer currentUserId = Util.getCurrentUserId(session);
         //获取所有探针
-        List<ProbePo> probePos = probePoMapper.selectByExample(new ProbePoExample());
+        ProbePoExample probePoExample= new ProbePoExample();
+//        probePoExample.createCriteria().andUserIdEqualTo(currentUserId);
+        List<ProbePo> probePos = probePoMapper.selectByExample(probePoExample);
 
         model.addAttribute("probes", probePos);
         model.addAttribute("currentUser", Util.getCurrentUserName(session));

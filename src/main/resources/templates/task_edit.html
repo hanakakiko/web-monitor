@@ -58,7 +58,8 @@
                 <div class="form-check">
                     选择告警规则:
                     <label class="form-check-label" th:each="alert:${alerts}">
-                        <input type="checkbox" class="form-check-input" name="alertRuleList" th:value="${alert.getAlertId()}" th:text="${alert.getAlertName()}">
+
+                        <input type="checkbox" class="form-check-input" name="alertRuleList" th:value="${alert.getAlertId()}" th:text="${alert.getAlertName()}" th:checked="${alert.getChecked()}">
                     </label>
                 </div>
 
@@ -70,7 +71,7 @@
                 <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button class="btn btn-primary" data-dismiss="modal" th:href="@{/task/list}">关闭</button>
                     <button class="btn btn-primary" type="submit">提交更改</button>
                 </div>
             </form>

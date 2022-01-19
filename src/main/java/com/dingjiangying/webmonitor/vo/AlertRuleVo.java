@@ -35,4 +35,9 @@ public class AlertRuleVo {
     private String alertParam;
 
     private Integer userId;
+
+    /**
+     * 1 checked 0 not
+     */
+    private Integer checked;
 }

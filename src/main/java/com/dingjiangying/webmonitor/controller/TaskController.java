@@ -22,6 +22,7 @@ import com.dingjiangying.webmonitor.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/task")
@@ -55,6 +56,7 @@ public class TaskController {
 //        probePoExample.createCriteria().andUserIdEqualTo(currentUserId);
         List<ProbePo> probePos = probeMapper.selectByExample(probePoExample);
 
+
         Map<Integer, String> probNameMap = new HashMap<>();
         for (int i = 0; i < probePos.size(); i++) {
             probNameMap.put(probePos.get(i).getProbeId(), probePos.get(i).getProbeName());
@@ -68,6 +70,7 @@ public class TaskController {
         for (int i = 0; i < alertRulePos.size(); i++) {
             alertNameMap.put(alertRulePos.get(i).getAlertId(), alertRulePos.get(i).getAlertName());
         }
+
 
         //todo 根据管理员
         if (currentUserId != null) {
@@ -120,12 +123,12 @@ public class TaskController {
         }
 
 
-//        model.addAttribute("probs", probePos);
+        model.addAttribute("probs", probePos);
 //        AlertRulePoExample alertRulePoExample=new AlertRulePoExample();
 //        alertRulePoExample.createCriteria().andUserIdEqualTo(currentUserId);
 //        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample);
 
-        model.addAttribute("alert_rules",alertRulePos);
+        model.addAttribute("alerts", alertRulePos);
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
 //        commonController.putUserName(model);
         return "task";
@@ -199,6 +202,12 @@ public class TaskController {
             probIdSet = new HashSet<>(probIds);
         }
 
+        Set<Integer> alertIdsSet = null;
+        if (taskPo.getAlertId() != null) {
+            List<Integer> alertIds = JSON.parseObject(taskPo.getAlertId(), List.class);
+            alertIdsSet = new HashSet<>(alertIds);
+        }
+
         //获取探针列表
         ProbePoExample probePoExample = new ProbePoExample();
         List<ProbePo> probePos = probeMapper.selectByExample(probePoExample);
@@ -219,13 +228,25 @@ public class TaskController {
         //获取告警规则列表
         String alertRules = taskPo.getAlertId();
         List<Integer> alertIds = JSON.parseArray(alertRules, Integer.class);
-        if(!CollectionUtils.isEmpty(alertIds)){
+        if (!CollectionUtils.isEmpty(alertIds)) {
 
         }
         AlertRulePoExample alertRulePoExample = new AlertRulePoExample();
         alertRulePoExample.createCriteria().andUserIdEqualTo(userService.selectUser(Util.getCurrentUserName(session)).getUserId());
         List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample);
-        model.addAttribute("alerts", alertRulePos);
+        List<AlertRuleVo> alertRuleVos = new ArrayList<>();
+        for (int i = 0; i < alertRulePos.size(); i++) {
+            AlertRuleVo alertRuleVo = new AlertRuleVo();
+            AlertRulePo alertRulePo = alertRulePos.get(i);
+            BeanUtils.copyProperties(alertRulePo, alertRuleVo);
+            if (alertIdsSet != null && alertIdsSet.contains(alertRuleVo.getAlertId())) {
+                alertRuleVo.setChecked(1);
+            } else {
+                alertRuleVo.setChecked(0);
+            }
+            alertRuleVos.add(alertRuleVo);
+        }
+        model.addAttribute("alerts", alertRuleVos);
 
 //        List<AlertRuleVo> alertRuleVos=new ArrayList<>();
         model.addAttribute("probs", probeVos);
@@ -241,15 +262,15 @@ public class TaskController {
         Integer currentUserId = Util.getCurrentUserId(session);
 //        System.out.println(taskinfo);
         TaskPo taskPo = new TaskPo();
-
+        BeanUtils.copyProperties(taskinfo, taskPo);
         if (taskinfo.getProbeList() != null) {
             taskPo.setCityList(JSON.toJSONString(taskinfo.getProbeList()));
         }
-        taskPo.setTaskId(taskinfo.getTaskId());
-        taskPo.setTaskName(taskinfo.getTaskName());
-        taskPo.setTaskUrl(taskinfo.getTaskUrl());
         //todo
 //        taskPo.setScriptPath();
+        if (taskinfo.getAlertRuleList() != null) {
+            taskPo.setAlertId(JSON.toJSONString(taskinfo.getAlertRuleList()));
+        }
 
         taskPo.setUserId(currentUserId);
         taskPo.setUmpdateTime(new Date());
