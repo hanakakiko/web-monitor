@@ -48,7 +48,7 @@ public class ScheduledTaskTransferService {
     @Autowired
     TaskPoMapper taskPoMapper;
 
-    @Scheduled(fixedRate = 60000)//一分钟分配一次
+    //@Scheduled(fixedRate = 60000)//一分钟分配一次
     @Async
     public void transferTasks() throws Exception {
         List<TaskPo> newTask = getNewTask();

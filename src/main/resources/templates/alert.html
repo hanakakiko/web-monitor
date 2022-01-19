@@ -83,7 +83,7 @@
                         <td th:if="${alert.getAlertType()} eq 0">超时</td>
                         <td th:if="${alert.getAlertType()} eq 1">可用率低</td>
 <!--                        <td th:text="${alert.getAlertType()}"></td>-->
-                        <td th:text="${alert.getAlertParam()}"></td>
+                        <td th:text="${alert.getAlertParam()}+${alert.getAlertType()==0?'ms':'%'}"></td>
                         <td th:text="${alert.getTaskCount()}"></td>
                         <td>
                             <a
