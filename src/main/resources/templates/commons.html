@@ -24,21 +24,21 @@
           rel="stylesheet">
 
     <style>
-        .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
-            background: #fff;
-            color: #409eff;
-        }
+        /*.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {*/
+        /*    background: #fff;*/
+        /*    color: #409eff;*/
+        /*}*/
 
-        .nav-sidebar > li > a {
-            color: #303133;
-        }
+        /*.nav-sidebar > li > a {*/
+        /*    color: #303133;*/
+        /*}*/
         .nav-sidebar > li > a >span{
             margin-right: 10px;
         }
 
-        .nav>li>a:hover{
-            background-color: #ecf5ff;
-        }
+        /*.nav>li>a:hover{*/
+        /*    background-color: #ecf5ff;*/
+        /*}*/
 
     </style>
 
@@ -88,8 +88,8 @@
     </div>
 </nav>
 
+<!--style="bottom:auto;background-color: #fff;border-right: none;padding-left: 35px;padding-top: 25px;padding-right: 40px;"-->
 <div class="col-sm-3 col-md-2 sidebar"
-     style="bottom:auto;background-color: #fff;border-right: none;padding-left: 35px;padding-top: 25px;padding-right: 40px;"
      th:fragment="sidebar(current)">
     <ul class="nav nav-sidebar" style="border: 1px solid #ebeef5;border-radius: 10px;">
         <li th:class="${current}=='task'?'active':''"><a th:href="@{/task/list}"><span class="glyphicon glyphicon-tags"></span>任务管理
