@@ -78,48 +78,49 @@ public class ScheduledAlertService {
 //    @Scheduled(fixedRate = 1000)//一秒钟检测一次
     @Async
     public void checkLogAndAlert() throws Exception {
-        List<LogPo> newLog = getNewLog();
-        for(LogPo logPo : newLog){
-            Integer taskId = logPo.getTaskId();
-            TaskPo taskPo = taskPoMapper.selectByPrimaryKey(taskId);
-            String taskName = taskPo.getTaskName();
-            Integer alertId = taskPo.getAlertId();
-            String probeName = probePoMapper.selectByPrimaryKey(logPo.getProbeId()).getProbeName();
-            AlertRulePo alertRulePo = alertRulePoMapper.selectByPrimaryKey(alertId);
-            boolean shouldAlert = false;
-            String message = "";
-            switch(alertRulePo.getAlertType()){
-                case AlertTypeConsts.TIMEOUT:
-                    Integer time = Integer.parseInt(alertRulePo.getAlertParam());
-                    if(logPo.getTotalTime() > time){
-                        shouldAlert = true;
-                        message = "您的任务：["+taskName+"] 在探针：["+probeName+"] 触发：["+alertRulePo.getAlertName()+ "] "
-                                + "告警规则，告警详情：任务执行用时"+logPo.getTotalTime()+"ms大于阈值"+time+"ms";
-                    }
-                    break;
-                case AlertTypeConsts.UNAVAILABLE:
-                    Double availability = Double.valueOf(alertRulePo.getAlertParam());
-                    if(logPo.getAvailability() * 100 < availability){
-                        shouldAlert = true;
-                        message = "您的任务：["+taskName+"] 在探针：["+probeName+"] 触发：["+alertRulePo.getAlertName()+ "] "
-                                + "告警规则，告警详情：任务资源可用率"+logPo.getAvailability() * 100+"%小于阈值"+availability+"%";
-                    }
-                    break;
-                default:
-            }
-            if(shouldAlert){
-                Integer userId = taskPo.getUserId();
-                ContactVo contactVo =
-                        JSON.parseObject(userPoMapper.selectByPrimaryKey(userId).getContact(), ContactVo.class);
-                sendAlertMail(taskName, message,contactVo.getMail());
-            }
-            //最后修改log状态位
-            LogPo logPo1 = new LogPo();
-            logPo1.setLogId(logPo.getLogId());
-            logPo1.setHasHandled(1);
-            logPoMapper.updateByPrimaryKeySelective(logPo1);
-            //其实还要修改task和user记录里的现存告警次数
-        }
+//        List<LogPo> newLog = getNewLog();
+//        for(LogPo logPo : newLog){
+//            Integer taskId = logPo.getTaskId();
+//            TaskPo taskPo = taskPoMapper.selectByPrimaryKey(taskId);
+//            String taskName = taskPo.getTaskName();
+//            //todo alertId 是字符串 还可能有多个
+//            Integer alertId = taskPo.getAlertId();
+//            String probeName = probePoMapper.selectByPrimaryKey(logPo.getProbeId()).getProbeName();
+//            AlertRulePo alertRulePo = alertRulePoMapper.selectByPrimaryKey(alertId);
+//            boolean shouldAlert = false;
+//            String message = "";
+//            switch(alertRulePo.getAlertType()){
+//                case AlertTypeConsts.TIMEOUT:
+//                    Integer time = Integer.parseInt(alertRulePo.getAlertParam());
+//                    if(logPo.getTotalTime() > time){
+//                        shouldAlert = true;
+//                        message = "您的任务：["+taskName+"] 在探针：["+probeName+"] 触发：["+alertRulePo.getAlertName()+ "] "
+//                                + "告警规则，告警详情：任务执行用时"+logPo.getTotalTime()+"ms大于阈值"+time+"ms";
+//                    }
+//                    break;
+//                case AlertTypeConsts.UNAVAILABLE:
+//                    Double availability = Double.valueOf(alertRulePo.getAlertParam());
+//                    if(logPo.getAvailability() * 100 < availability){
+//                        shouldAlert = true;
+//                        message = "您的任务：["+taskName+"] 在探针：["+probeName+"] 触发：["+alertRulePo.getAlertName()+ "] "
+//                                + "告警规则，告警详情：任务资源可用率"+logPo.getAvailability() * 100+"%小于阈值"+availability+"%";
+//                    }
+//                    break;
+//                default:
+//            }
+//            if(shouldAlert){
+//                Integer userId = taskPo.getUserId();
+//                ContactVo contactVo =
+//                        JSON.parseObject(userPoMapper.selectByPrimaryKey(userId).getContact(), ContactVo.class);
+//                sendAlertMail(taskName, message,contactVo.getMail());
+//            }
+//            //最后修改log状态位
+//            LogPo logPo1 = new LogPo();
+//            logPo1.setLogId(logPo.getLogId());
+//            logPo1.setHasHandled(1);
+//            logPoMapper.updateByPrimaryKeySelective(logPo1);
+//            //其实还要修改task和user记录里的现存告警次数
+//        }
     }
 
     public void sendAlertMail(String taskName, String message, String mail) {

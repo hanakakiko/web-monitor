@@ -28,6 +28,11 @@ public class TaskVo {
     private List<Integer> probeList;
 
     /**
+     * 规则列表
+     */
+    private List<Integer> alertRuleList;
+
+    /**
      * probeId转换成名字
      */
     private String probeListNames;
@@ -65,4 +70,15 @@ public class TaskVo {
      * 0是刚创建，1是被调度程序处理过
      */
     private Integer hasHuddled;
+
+
+    /**
+     * 有几条未读的告警日志
+     */
+    private Integer alertCount;
+
+    /**
+     * 应用了哪些告警规则，是个列表
+     */
+    private String alertId;
 }

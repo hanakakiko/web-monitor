@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlertVo {
+public class AlertRuleVo {
 
     private Integer alertId;
 

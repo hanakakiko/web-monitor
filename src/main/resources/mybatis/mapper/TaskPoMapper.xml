@@ -9,7 +9,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="has_huddled" property="hasHuddled" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="alert_id" property="alertId" jdbcType="INTEGER" />
+    <result column="alert_id" property="alertId" jdbcType="VARCHAR" />
     <result column="alert_count" property="alertCount" jdbcType="INTEGER" />
     <result column="umpdate_time" property="umpdateTime" jdbcType="TIMESTAMP" />
     <result column="script_path" property="scriptPath" jdbcType="VARCHAR" />
@@ -113,7 +113,7 @@
       umpdate_time, script_path)
     values (#{taskId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{taskUrl,jdbcType=VARCHAR}, 
       #{cityList,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{hasHuddled,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{alertId,jdbcType=INTEGER}, #{alertCount,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{alertId,jdbcType=VARCHAR}, #{alertCount,jdbcType=INTEGER}, 
       #{umpdateTime,jdbcType=TIMESTAMP}, #{scriptPath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dingjiangying.webmonitor.po.TaskPo" >
@@ -176,7 +176,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="alertId != null" >
-        #{alertId,jdbcType=INTEGER},
+        #{alertId,jdbcType=VARCHAR},
       </if>
       <if test="alertCount != null" >
         #{alertCount,jdbcType=INTEGER},
@@ -220,7 +220,7 @@
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.alertId != null" >
-        alert_id = #{record.alertId,jdbcType=INTEGER},
+        alert_id = #{record.alertId,jdbcType=VARCHAR},
       </if>
       <if test="record.alertCount != null" >
         alert_count = #{record.alertCount,jdbcType=INTEGER},
@@ -245,7 +245,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       has_huddled = #{record.hasHuddled,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      alert_id = #{record.alertId,jdbcType=INTEGER},
+      alert_id = #{record.alertId,jdbcType=VARCHAR},
       alert_count = #{record.alertCount,jdbcType=INTEGER},
       umpdate_time = #{record.umpdateTime,jdbcType=TIMESTAMP},
       script_path = #{record.scriptPath,jdbcType=VARCHAR}
@@ -275,7 +275,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="alertId != null" >
-        alert_id = #{alertId,jdbcType=INTEGER},
+        alert_id = #{alertId,jdbcType=VARCHAR},
       </if>
       <if test="alertCount != null" >
         alert_count = #{alertCount,jdbcType=INTEGER},
@@ -297,7 +297,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       has_huddled = #{hasHuddled,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      alert_id = #{alertId,jdbcType=INTEGER},
+      alert_id = #{alertId,jdbcType=VARCHAR},
       alert_count = #{alertCount,jdbcType=INTEGER},
       umpdate_time = #{umpdateTime,jdbcType=TIMESTAMP},
       script_path = #{scriptPath,jdbcType=VARCHAR}

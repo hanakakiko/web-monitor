@@ -60,6 +60,12 @@
                                         <input type="checkbox" class="form-check-input" name="probeList" th:value="${prob.getProbeId()}" th:text="${prob.getProbeName()}">
                                     </label>
                                 </div>
+
+                                <div class="form-check">
+                                    <label class="form-check-label" th:each="alert:${alert_rules}">
+                                        <input type="checkbox" class="form-check-input" name="alertRuleList" th:value="${alert.getAlertId()}" th:text="${alert.getAlertName()}">
+                                    </label>
+                                </div>
 <!--&lt;!&ndash;                                <div class="form-check">&ndash;&gt;-->
 <!--&lt;!&ndash;                                    <label class="form-check-label">&ndash;&gt;-->
 <!--&lt;!&ndash;                                        <input type="checkbox" class="form-check-input" value="">Option 2&ndash;&gt;-->
@@ -89,7 +95,7 @@
                         <th>城市</th>
                         <th>创建时间</th>
 <!--                        <th>频率</th>-->
-<!--                        <th>告警规则</th>-->
+                        <th>告警规则数量</th>
                         <th>状态</th>
                         <th>操作</th>
                         <th>日志</th>
@@ -102,6 +108,8 @@
                         <td th:text="${task.getTaskUrl()}"></td>
                         <td th:text="${task.getProbeListNames()}"></td>
                         <td th:text="${task.getCreateTime()}"></td>
+                        <td th:text="${task.getAlertCount()}"></td>
+
                         <td th:if="${task.getHasHuddled()} eq 0">
                             <span class="btn btn-info">待处理</span>
                         </td>

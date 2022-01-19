@@ -565,52 +565,62 @@ public class TaskPoExample {
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdEqualTo(Integer value) {
+        public Criteria andAlertIdEqualTo(String value) {
             addCriterion("alert_id =", value, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdNotEqualTo(Integer value) {
+        public Criteria andAlertIdNotEqualTo(String value) {
             addCriterion("alert_id <>", value, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdGreaterThan(Integer value) {
+        public Criteria andAlertIdGreaterThan(String value) {
             addCriterion("alert_id >", value, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAlertIdGreaterThanOrEqualTo(String value) {
             addCriterion("alert_id >=", value, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdLessThan(Integer value) {
+        public Criteria andAlertIdLessThan(String value) {
             addCriterion("alert_id <", value, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdLessThanOrEqualTo(Integer value) {
+        public Criteria andAlertIdLessThanOrEqualTo(String value) {
             addCriterion("alert_id <=", value, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdIn(List<Integer> values) {
+        public Criteria andAlertIdLike(String value) {
+            addCriterion("alert_id like", value, "alertId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertIdNotLike(String value) {
+            addCriterion("alert_id not like", value, "alertId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlertIdIn(List<String> values) {
             addCriterion("alert_id in", values, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdNotIn(List<Integer> values) {
+        public Criteria andAlertIdNotIn(List<String> values) {
             addCriterion("alert_id not in", values, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdBetween(Integer value1, Integer value2) {
+        public Criteria andAlertIdBetween(String value1, String value2) {
             addCriterion("alert_id between", value1, value2, "alertId");
             return (Criteria) this;
         }
 
-        public Criteria andAlertIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andAlertIdNotBetween(String value1, String value2) {
             addCriterion("alert_id not between", value1, value2, "alertId");
             return (Criteria) this;
         }

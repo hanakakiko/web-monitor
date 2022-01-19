@@ -38,7 +38,7 @@ public class TaskPo {
     /**
      * 应用了哪些告警规则，是个列表
      */
-    private Integer alertId;
+    private String alertId;
 
     /**
      * 有几条未读的告警日志
@@ -111,12 +111,12 @@ public class TaskPo {
         this.userId = userId;
     }
 
-    public Integer getAlertId() {
+    public String getAlertId() {
         return alertId;
     }
 
-    public void setAlertId(Integer alertId) {
-        this.alertId = alertId;
+    public void setAlertId(String alertId) {
+        this.alertId = alertId == null ? null : alertId.trim();
     }
 
     public Integer getAlertCount() {
