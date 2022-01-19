@@ -38,7 +38,7 @@ public class LogVo {
     /**
      * 执行任务用时（Time能表示时间段吗？还是时间点？）
      */
-    private Long totalTime;
+    private String totalTime;
 
     /**
      * 执行任务状态码（只有0和1），hasHandled为1的时候才起效，违背告警规则为1，没有为0
@@ -53,7 +53,7 @@ public class LogVo {
     /**
      * 资源的200OK率
      */
-    private Double availability;
+    private String availability;
 
     /**
      * 资源总数

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{commons.html::head(~{::title})}">
+    <title>alert</title>
+</head>
+
+<body>
+
+<nav th:replace="~{commons::headbar(${currentUser})}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons.html::sidebar(current='probe')}"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h1 class="page-header">探针列表</h1>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>探针名称</th>
+                        <th>探针类型</th>
+                        <th>探针状态</th>
+                        <th>日志</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="probe:${probes}">
+                        <td th:text="${probe.getProbeId()}"></td>
+                        <td th:text="${probe.getProbeName()}"></td>
+                        <td th:text="${probe.getProbeType()}==1?'自建':'默认'"></td>
+                        <td th:text="${probe.getProbeStatus()}"></td>
+                        <td>
+                            <a th:href="@{'/log/probe/'+${probe.getProbeId()}}">查看log</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/dist/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/vendor/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

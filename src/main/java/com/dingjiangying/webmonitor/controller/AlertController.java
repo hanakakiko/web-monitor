@@ -34,8 +34,9 @@ public class AlertController {
         Integer currentUserId = Util.getCurrentUserId(session);
 
         //获取用户的告警规则（告警规则表加user_id字段！）
-
-        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(new AlertRulePoExample());
+        AlertRulePoExample alertRulePoExample = new AlertRulePoExample();
+        alertRulePoExample.createCriteria().andUserIdEqualTo(currentUserId);
+        List<AlertRulePo> alertRulePos = alertRulePoMapper.selectByExample(alertRulePoExample);
         model.addAttribute("alerts", alertRulePos);
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
         //        commonController.putUserName(model);

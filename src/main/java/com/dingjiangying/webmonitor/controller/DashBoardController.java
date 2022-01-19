@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -55,19 +56,25 @@ public class DashBoardController {
         List<TaskPo> taskPos = taskPoMapper.selectByExample(taskPoExample);
         List<Integer> taskIds = taskPos.stream().map(TaskPo::getTaskId).collect(Collectors.toList());
 
-        //找这些任务的全部日志
-        LogPoExample logPoExample = new LogPoExample();
-        LogPoExample.Criteria logPoExampleCriteria = logPoExample.createCriteria();
-        logPoExampleCriteria.andTaskIdIn(taskIds);
-        List<LogPo> logPos = logPoMapper.selectByExample(logPoExample);
-
-        int averageTotalTime = (int) logPos.stream().mapToLong(LogPo::getTotalTime).average().getAsDouble();
-
-        double averageAvalibility = logPos.stream().mapToDouble(LogPo::getAvailability).average().getAsDouble();
-
         SummaryVo summaryVo = new SummaryVo();
-        summaryVo.setAverageTime(String.valueOf(averageTotalTime)+"ms");
-        summaryVo.setAverageAvailability(String.format("%.2f", averageAvalibility * 100)+"%");
+
+        //找这些任务的全部日志
+        if(!CollectionUtils.isEmpty(taskIds)){
+            LogPoExample logPoExample = new LogPoExample();
+            LogPoExample.Criteria logPoExampleCriteria = logPoExample.createCriteria();
+            logPoExampleCriteria.andTaskIdIn(taskIds);
+            List<LogPo> logPos = logPoMapper.selectByExample(logPoExample);
+
+            if(!CollectionUtils.isEmpty(logPos)){
+                int averageTotalTime = (int) logPos.stream().mapToLong(LogPo::getTotalTime).average().getAsDouble();
+
+                double averageAvalibility = logPos.stream().mapToDouble(LogPo::getAvailability).average().getAsDouble();
+
+                summaryVo.setAverageTime(String.valueOf(averageTotalTime)+"ms");
+                summaryVo.setAverageAvailability(String.format("%.2f", averageAvalibility * 100)+"%");
+            }
+
+        }
 
         model.addAttribute("summary",summaryVo);
 

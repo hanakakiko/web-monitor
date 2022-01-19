@@ -44,23 +44,23 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>log_id</th>
+                        <th>id</th>
                         <th>探针id</th>
-                        <th>task_id</th>
-                        <th>timestamp</th>
+                        <th>任务id</th>
+                        <th>时间</th>
                         <th>状态</th>
-                        <th>执行用时</th>
-                        <th>执行状态码</th>
-                        <th>script_output_path</th>
-                        <th>availability</th>
                         <th>资源总数</th>
+                        <th>执行状态码</th>
+                        <th>脚本输出路径</th>
+                        <th>资源可用率</th>
+                        <th>执行用时</th>
                     </tr>
                     </thead>
                     <tbody>
                         <tr th:each="log:${logs}">
                             <td th:text="${log.getLogId()}"></td>
-                            <td th:text="${log.getTaskId()}"></td>
                             <td th:text="${log.getProbeId()}"></td>
+                            <td th:text="${log.getTaskId()}"></td>
                             <td th:text="${log.getTimestamp()}"></td>
 <!--                            <td th:text="${log.getHasHandled()}"></td>-->
                             <td th:if="${log.getHasHandled()} eq 0">
@@ -74,7 +74,7 @@
                             <td th:text="${log.getErrorCode()}"></td>
                             <td th:text="${log.getScriptOutputPath()}"></td>
                             <td th:text="${log.getAvailability()}"></td>
-                            <td th:text="${log.getTotalNum()}"></td>
+                            <td th:text="${log.getTotalTime()}"></td>
 <!--                            <td th:text="${task.getTaskUrl()}"></td>-->
 <!--                            <td th:text="${task.getProbeListNames()}"></td>-->
 <!--                            <td th:text="${task.getCreateTime()}"></td>-->

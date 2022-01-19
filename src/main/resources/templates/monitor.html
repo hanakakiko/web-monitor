@@ -14,11 +14,15 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Dashboard</h1>
 
+            <p th:if="${summary.getAverageTime()} eq NULL" class="col-sm-10"
+               style="color: darkred; font-size: 14px">暂无可汇总的日志!</p>
+
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
                     <h4></h4>
                     <span class="text-muted" ></span>
                 </div>
+
                 <div class="col-xs-8 col-sm-3 placeholder">
                     <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
 <!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
@@ -36,6 +40,9 @@
 <!--                    <span class="text-muted">Something else</span>-->
 <!--                </div>-->
             </div>
+
+
+
         </div>
     </div>
 </div>

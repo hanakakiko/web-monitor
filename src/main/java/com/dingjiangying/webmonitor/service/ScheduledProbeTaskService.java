@@ -47,19 +47,6 @@ import java.text.SimpleDateFormat;
 public class ScheduledProbeTaskService {
 
     @Autowired
-    JavaMailSenderImpl javaMailSender;
-
-//    @Scheduled(fixedRate = 20000)//20s一次
-    public void sendmail() {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setSubject("邮件发送测试");
-        simpleMailMessage.setText("测试下");
-        simpleMailMessage.setFrom("1104349906@qq.com");
-        simpleMailMessage.setTo("2000022759@stu.pku.edu.cn");
-        javaMailSender.send(simpleMailMessage);
-    }
-
-    @Autowired
     ProbePoMapper probePoMapper;
 
     @Autowired
@@ -207,28 +194,33 @@ public class ScheduledProbeTaskService {
             thisLogDir.mkdir();// 创建目标文件
         }
 
+
         //执行脚本
         String commandStr = "node puppeteer.js "+task.getTaskUrl()+" "+thisLogPath + " " + TIMEOUT;
-        exeCmd(commandStr);
 
-        LogPo logPo = new LogPo();
-        logPo.setHasHandled(0);
-        logPo.setTaskId(task.getTaskId());
-        logPo.setProbeId(PROBEID);
-        logPo.setTimestamp(new Date(now));
+        if(Strings.isNotBlank(task.getTaskUrl())){
+            exeCmd(commandStr);
+            LogPo logPo = new LogPo();
+            logPo.setHasHandled(0);
+            logPo.setTaskId(task.getTaskId());
+            logPo.setProbeId(PROBEID);
+            logPo.setTimestamp(new Date(now));
 
 
-        //传到远程服务器上
-        commandStr = "sh " + "./pushLog.sh " + REMOTEPATH + " " + PROBEID + " " +String.valueOf(task.getTaskId()) + " " +now.toString();
-        exeCmd(commandStr);
-        logPo.setScriptOutputPath(REMOTEPATH+":"+"~/web-monitor/probeLogs/"+PROBEID + "/" +String.valueOf(task.getTaskId()) + "/" +now.toString());
-        //解析har文件
-        resolveHar(thisLogPath + "/" + "network.har",logPo);
+            //传到远程服务器上
+            commandStr = "sh " + "./pushLog.sh " + REMOTEPATH + " " + PROBEID + " " +String.valueOf(task.getTaskId()) + " " +now.toString();
+            exeCmd(commandStr);
+            logPo.setScriptOutputPath(REMOTEPATH+":"+"~/web-monitor/probeLogs/"+PROBEID + "/" +String.valueOf(task.getTaskId()) + "/" +now.toString());
+            //解析har文件
+            resolveHar(thisLogPath + "/" + "network.har",logPo);
 
-        //System.out.println(logPo.toString());
+            //System.out.println(logPo.toString());
 
-        //日志插入数据库
-        logPoMapper.insertSelective(logPo);
+            //日志插入数据库
+            logPoMapper.insertSelective(logPo);
+        }
+
+
 
         //        harReader = new HarReader(new DefaultMapperFactory());
 
