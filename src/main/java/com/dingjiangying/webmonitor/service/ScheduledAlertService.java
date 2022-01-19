@@ -120,22 +120,25 @@ public class ScheduledAlertService {
                         default:
                     }
                 }
+
+                LogPo logPo1 = new LogPo();
+                logPo1.setLogId(logPo.getLogId());
+
                 if(shouldAlert){
+                    logPo1.setErrorCode(1);
                     Integer userId = taskPo.getUserId();
                     ContactVo contactVo =
                             JSON.parseObject(userPoMapper.selectByPrimaryKey(userId).getContact(), ContactVo.class);
                     sendAlertMail(taskName, messages, contactVo.getMail());
+                }else{
+                    logPo1.setErrorCode(0);
                 }
+
                 //最后修改log状态位
-                LogPo logPo1 = new LogPo();
-                logPo1.setLogId(logPo.getLogId());
                 logPo1.setHasHandled(1);
                 logPoMapper.updateByPrimaryKeySelective(logPo1);
                 //其实还要修改task和user记录里的现存告警次数
             }
-
-
-
         }
     }
 
