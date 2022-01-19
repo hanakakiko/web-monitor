@@ -12,16 +12,40 @@
     <title th:replace="${title}"></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/css/ie10-viewport-bug-workaround.css"
+          rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/examples/dashboard/dashboard.css"
+          rel="stylesheet">
+
+    <style>
+        .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+            background: #fff;
+            color: #409eff;
+        }
+
+        .nav-sidebar > li > a {
+            color: #303133;
+        }
+        .nav-sidebar > li > a >span{
+            margin-right: 10px;
+        }
+
+        .nav>li>a:hover{
+            background-color: #ecf5ff;
+        }
+
+    </style>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/ie8-responsive-file-warning.js"></script>
+    <![endif]-->
     <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.29/assets/js/ie-emulation-modes-warning.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -35,7 +59,8 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="headbar(currentUser)">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -51,7 +76,7 @@
                 <li><a href="#">Help</a></li>
                 <li><a href="#">
                     <form th:action="@{/logout_form}" method="post">
-                        <input th:if="${currentUser} ne '游客'" type="submit" name="logout" value="退出" >
+                        <input th:if="${currentUser} ne '游客'" type="submit" name="logout" value="退出">
                     </form>
                 </a></li>
 
@@ -63,20 +88,23 @@
     </div>
 </nav>
 
-<div class="col-sm-3 col-md-2 sidebar" th:fragment="sidebar(current)">
-    <ul class="nav nav-sidebar">
-        <li th:class="${current}=='task'?'active':''"><a th:href="@{/task/list}">任务管理<span class="sr-only">(current)</span></a></li>
-        <li th:class="${current}=='alert'?'active':''"><a th:href="@{/alert/list}">告警规则管理</a></li>
-        <li th:class="${current}=='dashboard'?'active':''"><a th:href="@{/dashboard/summury}">监控大盘</a></li>
-        <li th:class="${current}=='probe'?'active':''"><a th:href="@{/probe/list}">探针管理</a></li>
-        <li th:class="${current}=='contact'?'active':''"><a th:href="@{/contact}">联系方式</a></li>
+<div class="col-sm-3 col-md-2 sidebar"
+     style="bottom:auto;background-color: #fff;border-right: none;padding-left: 35px;padding-top: 25px;padding-right: 40px;"
+     th:fragment="sidebar(current)">
+    <ul class="nav nav-sidebar" style="border: 1px solid #ebeef5;border-radius: 10px;">
+        <li th:class="${current}=='task'?'active':''"><a th:href="@{/task/list}"><span class="glyphicon glyphicon-tags"></span>任务管理
+            <span class="sr-only">(current)</span></a></li>
+        <li th:class="${current}=='alert'?'active':''"><a th:href="@{/alert/list}"><span class="glyphicon glyphicon-paperclip"></span>告警规则管理</a></li>
+        <li th:class="${current}=='dashboard'?'active':''"><a th:href="@{/dashboard/summury}"><span class="glyphicon glyphicon-bookmark"></span>监控大盘</a></li>
+        <li th:class="${current}=='probe'?'active':''"><a th:href="@{/probe/list}"><span class="glyphicon glyphicon-cog"></span>探针管理</a></li>
+        <li th:class="${current}=='contact'?'active':''"><a th:href="@{/contact}"><span class="glyphicon glyphicon-user"></span>联系方式</a></li>
     </ul>
-<!--    <ul class="nav nav-sidebar">-->
-<!--        <li th:class="${current}=='dashboard'?'active':''"><a th:href="@{/dashboard/summury}">监控大盘</a></li>-->
-<!--    </ul>-->
-<!--    <ul class="nav nav-sidebar">-->
-<!--        <li th:class="${current}=='probe'?'active':''"><a th:href="@{/probe/list}">探针管理</a></li>-->
-<!--        <li th:class="${current}=='contact'?'active':''"><a th:href="@{/contact}">联系方式</a></li>-->
-<!--    </ul>-->
+    <!--    <ul class="nav nav-sidebar">-->
+    <!--        <li th:class="${current}=='dashboard'?'active':''"><a th:href="@{/dashboard/summury}">监控大盘</a></li>-->
+    <!--    </ul>-->
+    <!--    <ul class="nav nav-sidebar">-->
+    <!--        <li th:class="${current}=='probe'?'active':''"><a th:href="@{/probe/list}">探针管理</a></li>-->
+    <!--        <li th:class="${current}=='contact'?'active':''"><a th:href="@{/contact}">联系方式</a></li>-->
+    <!--    </ul>-->
 </div>
 </html>
