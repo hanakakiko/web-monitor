@@ -10,7 +10,7 @@ public class AlertRulePo {
 
     /**
      * 告警类型，枚举类，超时；可用率过低；未包含指定元素；包含了不允许的元素等
-     * @see(com.dingjiangying.webmonitor.enums.AlertTypeEnum)
+     * @see(com.dingjiangying.webmonitor.consts.AlertTypeConsts)
      */
     private Integer alertType;
 

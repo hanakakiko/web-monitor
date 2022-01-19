@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,12 +74,14 @@ public class TaskController {
 //                List<String> cityList = Util.getList(po.getCityList());
                 List<Integer> cityList = JSON.parseObject(po.getCityList(), List.class);
                 String probNames = "";
-                for (int j = 0; j < cityList.size(); j++) {
-                    String probName = probNameMap.get(new Integer(cityList.get(j)));
-                    if (j != 0) {
-                        probNames += ",";
+                if(!CollectionUtils.isEmpty(cityList)){
+                    for (int j = 0; j < cityList.size(); j++) {
+                        String probName = probNameMap.get(new Integer(cityList.get(j)));
+                        if (j != 0) {
+                            probNames += ",";
+                        }
+                        probNames += probName;
                     }
-                    probNames += probName;
                 }
                 vo.setProbeListNames(probNames);
                 taskVos.add(vo);
