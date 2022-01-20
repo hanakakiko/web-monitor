@@ -268,7 +268,7 @@ public class TaskController {
             taskPo.setCityList(JSON.toJSONString(taskinfo.getProbeList()));
         }
         //todo
-//        taskPo.setScriptPath();
+        taskPo.setScriptPath(taskinfo.getScript());
         if (taskinfo.getAlertRuleList() != null) {
             taskPo.setAlertId(JSON.toJSONString(taskinfo.getAlertRuleList()));
         }

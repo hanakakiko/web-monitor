@@ -37,7 +37,7 @@
                     <label class="col-sm-2 control-label">Script:</label>
                     <div class="col-sm-10">
 <!--                        todo script-->
-                        <textarea class="form-control col-sm-10" name="script" placeholder="输入要运行的脚本" style="height: 200px;"></textarea>
+                        <textarea class="form-control col-sm-10" name="script" placeholder="输入要运行的脚本" style="height: 200px;" th:text="${task.getScript()}"></textarea>
                     </div>
                 </div>
 
