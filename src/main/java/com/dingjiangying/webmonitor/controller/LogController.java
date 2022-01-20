@@ -6,18 +6,25 @@ import com.dingjiangying.webmonitor.dao.UserPoMapper;
 import com.dingjiangying.webmonitor.po.*;
 import com.dingjiangying.webmonitor.util.Util;
 import com.dingjiangying.webmonitor.vo.LogVo;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -32,6 +39,10 @@ public class LogController {
 
     @Autowired
     private UserPoMapper userPoMapper;
+
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
     @RequestMapping("/task/{taskId}")
     public String listByTask(@PathVariable Integer taskId, Model model, HttpSession session) {
@@ -53,13 +64,13 @@ public class LogController {
             vo.setTotalNum(po.getTotalNum());
             vo.setErrorCode(po.getErrorCode());
             vo.setScriptOutputPath(po.getScriptOutputPath());
-            vo.setAvailability(String.format("%.2f", po.getAvailability() * 100)+"%");
-            vo.setTotalTime(String.valueOf(po.getTotalTime())+"ms");
+            vo.setAvailability(String.format("%.2f", po.getAvailability() * 100) + "%");
+            vo.setTotalTime(String.valueOf(po.getTotalTime()) + "ms");
 
             logVos.add(vo);
         }
         model.addAttribute("logs", logVos);
-        model.addAttribute("tag","task");
+        model.addAttribute("tag", "task");
 //        System.out.println(taskId);
         return "log";
     }
@@ -100,37 +111,44 @@ public class LogController {
             vo.setTotalNum(po.getTotalNum());
             vo.setErrorCode(po.getErrorCode());
             vo.setScriptOutputPath(po.getScriptOutputPath());
-            vo.setAvailability(String.format("%.2f", po.getAvailability() * 100)+"%");
-            vo.setTotalTime(String.valueOf(po.getTotalTime())+"ms");
+            vo.setAvailability(String.format("%.2f", po.getAvailability() * 100) + "%");
+            vo.setTotalTime(String.valueOf(po.getTotalTime()) + "ms");
 
             logVos.add(vo);
         }
         model.addAttribute("logs", logVos);
-        model.addAttribute("tag","probe");
+        model.addAttribute("tag", "probe");
         //        System.out.println(taskId);
         return "log";
     }
 
     /**
      * 目的是在点击下载的时候拉到本地，但不跳转页面，不知道怎么搞
+     *
      * @param logId
      * @param model
      */
     @RequestMapping("download/{logId}/{tag}")
-    public String download(@PathVariable("logId") Integer logId, @PathVariable("tag") String tag, Model model){
+    public String download(@PathVariable("logId") Integer logId, @PathVariable("tag") String tag, Model model) {
         //拉取全部该日志的全部输出
         LogPo logPo = logMapper.selectByPrimaryKey(logId);
         String scriptOutputPath = logPo.getScriptOutputPath();
+        String localPathWithTimeStamp = scriptOutputPath.substring(scriptOutputPath.indexOf("probeLogs"));
         String localPath = scriptOutputPath.substring(scriptOutputPath.indexOf("probeLogs"),
                 scriptOutputPath.lastIndexOf("/"));
+
+
         String timeStamp = scriptOutputPath.substring(scriptOutputPath.lastIndexOf("/"));
-        String cmd = "mkdir -p "+localPath;
-        exeCmd(cmd);
-        cmd = "scp -r " + scriptOutputPath + " " + localPath;
-        exeCmd(cmd);
+        File localDirWithTimeStamp = new File(localPathWithTimeStamp);
+        if (!localDirWithTimeStamp.exists()) {
+            String cmd = "mkdir -p " + localPath;
+            exeCmd(cmd);
+            cmd = "scp -r " + scriptOutputPath + " " + localPath;
+            exeCmd(cmd);
+        }
 //        cmd = "rm -rf probeLogs";
-        model.addAttribute("myPath",localPath+timeStamp);
-        model.addAttribute("tag",tag);
+        model.addAttribute("myPath", localPath + timeStamp);
+        model.addAttribute("tag", tag);
         return "logOutput";
     }
 
@@ -147,17 +165,39 @@ public class LogController {
             System.out.println(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            if (br != null)
-            {
+        } finally {
+            if (br != null) {
                 try {
                     br.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+
+    @RequestMapping("/download_file")
+    public void downFileTemplate(String filename, HttpServletResponse response) throws IOException {
+        String localFileName = filename.substring(filename.lastIndexOf("/")+1);
+        String absolutePath = filename;
+        File file = new File(absolutePath);
+        response.reset();
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("utf-8");
+        response.setContentLength((int) file.length());
+        response.setHeader("Content-Disposition", "attachment;filename=" + localFileName);
+
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));) {
+            byte[] buff = new byte[1024];
+            OutputStream os = response.getOutputStream();
+            int i = 0;
+            while ((i = bis.read(buff)) != -1) {
+                os.write(buff, 0, i);
+                os.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

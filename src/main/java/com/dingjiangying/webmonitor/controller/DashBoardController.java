@@ -74,6 +74,14 @@ public class DashBoardController {
             logPoExampleCriteria.andTaskIdIn(taskIds);
             logPoExample.setOrderByClause("timestamp ASC");
             List<LogPo> logPos = logPoMapper.selectByExample(logPoExample);
+
+            Integer unreadLogCount=0;
+            for (int i = 0; i < logPos.size(); i++) {
+                LogPo log=logPos.get(i);
+                if(log.getHasHandled()!=null &&log.getHasHandled()==1){
+                    unreadLogCount+=1;
+                }
+            }
             if(!CollectionUtils.isEmpty(logPos)){
                 int averageTotalTime = (int) logPos.stream().mapToLong(LogPo::getTotalTime).average().getAsDouble();
 
@@ -92,6 +100,9 @@ public class DashBoardController {
 
                 logAvailability=logPos.stream().map(LogPo::getAvailability).collect(Collectors.toList());
 
+
+                summaryVo.setTotalTaskCount(taskPos.size());
+                summaryVo.setUnreadLogCount(unreadLogCount);
             }
 
         }

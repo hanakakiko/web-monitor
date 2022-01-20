@@ -31,7 +31,10 @@
                         <td th:text="${probe.getProbeId()}"></td>
                         <td th:text="${probe.getProbeName()}"></td>
                         <td th:text="${probe.getProbeType()}==1?'自建':'默认'"></td>
-                        <td th:text="${probe.getProbeStatus()}"></td>
+<!--                        <td th:text="${probe.getProbeStatus()}"></td>-->
+                        <td>
+                            <span class="btn btn-success">运行中</span>
+                        </td>
                         <td>
                             <a th:href="@{'/log/probe/'+${probe.getProbeId()}}">查看log</a>
                         </td>

@@ -18,14 +18,13 @@
                style="color: darkred; font-size: 14px">暂无可汇总的日志!</p>
 
             <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <h4></h4>
-                    <span class="text-muted"></span>
-                </div>
+<!--                <div class="col-xs-6 col-sm-3 placeholder">-->
+<!--                    <h4></h4>-->
+<!--                    <span class="text-muted"></span>-->
+<!--                </div>-->
 
-                <div class="col-xs-8 col-sm-3 placeholder">
+                <div class="col-xs-6 col-sm-3 placeholder">
                     <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-                    <!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
                     <h4>平均用时</h4>
                     <span class="text-muted" th:text="${summary.getAverageTime()}"></span>
                 </div>
@@ -33,6 +32,16 @@
                     <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
                     <h4>平均可用率</h4>
                     <span class="text-muted" th:text="${summary.getAverageAvailability()}"></span>
+                </div>
+                <div class="col-xs-8 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                    <h4>总任务数</h4>
+                    <span class="text-muted" th:text="${summary.getTotalTaskCount()}"></span>
+                </div>
+                <div class="col-xs-8 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                    <h4>未读告警</h4>
+                    <span class="text-muted" th:text="${summary.getUnreadLogCount()}"></span>
                 </div>
                 <!--                <div class="col-xs-6 col-sm-3 placeholder">-->
                 <!--                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->

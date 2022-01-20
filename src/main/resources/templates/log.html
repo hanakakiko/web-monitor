@@ -38,7 +38,7 @@
             </div>
 
 
-            <h1 class="page-header">LogList</h1>
+            <h1 class="page-header">日志列表</h1>
 
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -64,10 +64,14 @@
                             <td th:text="${log.getTimestamp()}"></td>
 <!--                            <td th:text="${log.getHasHandled()}"></td>-->
                             <td th:if="${log.getHasHandled()} eq 0">
-                                <span class="btn btn-info">待处理</span>
+                                <span class="btn btn-success">正常</span>
                             </td>
                             <td th:if="${log.getHasHandled()} eq 1">
-                                <span class="btn btn-success">已调度</span>
+                                <span class="btn btn-danger">告警</span>
+                            </td>
+
+                            <td th:if="${log.getHasHandled()} eq 2">
+                                <span class="btn btn-primary">已读</span>
                             </td>
 
                             <td th:text="${log.getTotalNum()}"></td>

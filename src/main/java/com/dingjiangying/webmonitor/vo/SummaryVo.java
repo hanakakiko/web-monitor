@@ -1,6 +1,7 @@
 package com.dingjiangying.webmonitor.vo;
 
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,4 +34,13 @@ public class SummaryVo {
      */
     private List<TaskVo> taskList;
 
+    /**
+     * 总任务数量
+     */
+    private Integer totalTaskCount = 0;
+
+    /**
+     * 未读告警数量
+     */
+    private Integer unreadLogCount = 0;
 }
