@@ -183,7 +183,8 @@ public class LogController {
      * @param model
      */
     @RequestMapping("download/{logId}/{tag}")
-    public String download(@PathVariable("logId") Integer logId, @PathVariable("tag") String tag, Model model) {
+    public String download(@PathVariable("logId") Integer logId, @PathVariable("tag") String tag, Model model,HttpSession session) {
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
         //拉取全部该日志的全部输出
         LogPo logPo = logMapper.selectByPrimaryKey(logId);
         String scriptOutputPath = logPo.getScriptOutputPath();

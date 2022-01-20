@@ -150,7 +150,7 @@ public class TaskController {
         taskPo.setTaskName(taskinfo.getTaskName());
         taskPo.setTaskUrl(taskinfo.getTaskUrl());
         //todo
-//        taskPo.setScriptPath();
+        taskPo.setScriptPath(taskinfo.getScript());
         if (taskinfo.getAlertRuleList() != null) {
             taskPo.setAlertId(JSON.toJSONString(taskinfo.getAlertRuleList()));
         }
@@ -194,6 +194,7 @@ public class TaskController {
         if (taskPo.getCreateTime() != null) {
             vo.setCreateTime(Util.dateToString(taskPo.getCreateTime()));
         }
+        vo.setScript(taskPo.getScriptPath());
 
 //        获取该task选中的探针
         Set<Integer> probIdSet = null;
