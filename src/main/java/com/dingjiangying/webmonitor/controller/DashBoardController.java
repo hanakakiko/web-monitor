@@ -63,7 +63,6 @@ public class DashBoardController {
 
         SummaryVo summaryVo = new SummaryVo();
 
-
         List<Long> logTimeCosts=new ArrayList<>();
         List<Double> logAvailability=new ArrayList<>();
         List<String> logDates=new ArrayList<>();

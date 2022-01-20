@@ -49,7 +49,9 @@ public class LogController {
         model.addAttribute("currentUser", Util.getCurrentUserName(session));
 
         LogPoExample example = new LogPoExample();
-        example.createCriteria().andTaskIdEqualTo(taskId);
+        if (taskId != null) {
+            example.createCriteria().andTaskIdEqualTo(taskId);
+        }
 
         List<LogPo> logPos = logMapper.selectByExample(example);
         List<LogVo> logVos = new ArrayList<>();
@@ -74,6 +76,58 @@ public class LogController {
 //        System.out.println(taskId);
         return "log";
     }
+
+
+    @RequestMapping("/unread")
+    public String getUnreadLogs(Model model, HttpSession session) {
+        model.addAttribute("currentUser", Util.getCurrentUserName(session));
+
+        //找userId
+        UserPoExample userPoExample = new UserPoExample();
+        UserPoExample.Criteria userPoExampleCriteria = userPoExample.createCriteria();
+        userPoExampleCriteria.andUserIdEqualTo(Util.getCurrentUserId(session));
+        List<UserPo> users = userPoMapper.selectByExample(userPoExample);
+        UserPo userPo = users.get(0);
+
+        //找user的全部任务
+        TaskPoExample taskPoExample = new TaskPoExample();
+        TaskPoExample.Criteria taskPoExampleCriteria = taskPoExample.createCriteria();
+        taskPoExampleCriteria.andUserIdEqualTo(userPo.getUserId());
+        List<TaskPo> taskPos = taskMapper.selectByExample(taskPoExample);
+        List<Integer> taskIds = taskPos.stream().map(TaskPo::getTaskId).collect(Collectors.toList());
+
+
+        if (!CollectionUtils.isEmpty(taskIds)) {
+            //找这些任务的全部日志
+            LogPoExample logPoExample = new LogPoExample();
+            LogPoExample.Criteria logPoExampleCriteria = logPoExample.createCriteria();
+            logPoExampleCriteria.andTaskIdIn(taskIds);
+            logPoExample.setOrderByClause("timestamp ASC");
+            List<LogPo> logPos = logMapper.selectByExample(logPoExample);
+
+            List<LogVo> logVos = new ArrayList<>();
+            for (int i = 0; i < logPos.size(); i++) {
+                LogVo vo = new LogVo();
+                LogPo po = logPos.get(i);
+                vo.setLogId(po.getLogId());
+                vo.setTaskId(po.getTaskId());
+                vo.setProbeId(po.getProbeId());
+                vo.setTimestamp(Util.dateToString(po.getTimestamp()));
+                vo.setHasHandled(po.getHasHandled());
+                vo.setTotalNum(po.getTotalNum());
+                vo.setErrorCode(po.getErrorCode());
+                vo.setScriptOutputPath(po.getScriptOutputPath());
+                vo.setAvailability(String.format("%.2f", po.getAvailability() * 100) + "%");
+                vo.setTotalTime(String.valueOf(po.getTotalTime()) + "ms");
+
+                logVos.add(vo);
+            }
+            model.addAttribute("logs", logVos);
+            model.addAttribute("tag", "task");
+        }
+        return "log";
+    }
+
 
     @RequestMapping("/probe/{probeId}")
     public String listByProbe(@PathVariable Integer probeId, Model model, HttpSession session) {
@@ -179,7 +233,7 @@ public class LogController {
 
     @RequestMapping("/download_file")
     public void downFileTemplate(String filename, HttpServletResponse response) throws IOException {
-        String localFileName = filename.substring(filename.lastIndexOf("/")+1);
+        String localFileName = filename.substring(filename.lastIndexOf("/") + 1);
         String absolutePath = filename;
         File file = new File(absolutePath);
         response.reset();
