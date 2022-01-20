@@ -4,6 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /probeLogs
+/locallogs
+/.DS_Store
+/node_modules
+package-lock.json
+package.json
+localTasks.txt
 ### STS ###
 .apt_generated
 .classpath

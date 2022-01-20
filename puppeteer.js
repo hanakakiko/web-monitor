@@ -11,17 +11,25 @@ const puppeteerHar = require('puppeteer-har');
             height: 800
         });
     const har = new puppeteerHar(page);
+
     await har.start({
         path: process.argv[3]+ '/' + 'network.har',
     });
 
+
+
     await page.setCacheEnabled(false);
+
+    console.log("srart goto")
 
     await page.goto(process.argv[2],{waitUntil:"networkidle2"});
 
-    await autoScroll(page);
 
+    // await autoScroll(page);
+
+    // console.log("har stop start")
     await har.stop();
+    // console.log("har stop end")
 
     const time = new Date().getTime();
 
@@ -29,7 +37,7 @@ const puppeteerHar = require('puppeteer-har');
         path: process.argv[3]+ '/' + 'screenshot.png',
         fullPage: true
     });
-
+    console.log("puppeteer success")
     await browser.close();
 })();
 
@@ -41,9 +49,11 @@ function autoScroll(page) {
             var distance = 100;
             var timer = setInterval(() => {
                 var scrollHeight = document.body.scrollHeight;
+                console.log(scrollHeight)
                 window.scrollBy(0, distance);
                 totalHeight += distance;
                 if (totalHeight >= scrollHeight) {
+                    console.log("clear")
                     clearInterval(timer);
                     resolve();
                 }

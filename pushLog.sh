@@ -4,4 +4,4 @@
 ssh $1 "mkdir -p ~/web-monitor/probeLogs/$2/$3"
 #把结果上传到远程文件夹
 scp -r locallogs/$2/$3/$4 $1:~/web-monitor/probeLogs/$2/$3
-rm -rf locallogs/$2/$3/$4
+#rm -rf locallogs/$2/$3/$4

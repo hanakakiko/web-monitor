@@ -15,6 +15,7 @@ import com.github.dockerjava.api.command.CreateContainerResponse;
 import de.sstoehr.harreader.HarReader;
 import de.sstoehr.harreader.HarReaderException;
 import de.sstoehr.harreader.jackson.DefaultMapperFactory;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,13 +23,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import static java.lang.Thread.sleep;
+
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.util.PerformanceSensitive;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.tomcat.util.bcel.classfile.Constant;
@@ -40,6 +44,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import de.sstoehr.harreader.model.*;
+
 import java.text.SimpleDateFormat;
 
 @Component
@@ -69,11 +74,11 @@ public class ScheduledProbeTaskService {
 
     public static Integer TIMEOUT = 20000;
 
-    //@Scheduled(fixedRate = 60000)//一分钟拉一次
+    @Scheduled(fixedRate = 60000)//一分钟拉一次
     @Async
     public void pullTasks() throws Exception {
-        if(PROBEID==null){
-            return ;
+        if (PROBEID == null) {
+            return;
         }
         String activeTaskList = probePoMapper.selectByPrimaryKey(PROBEID).getActiveTaskList();
 
@@ -85,7 +90,7 @@ public class ScheduledProbeTaskService {
         //所有taskPo的json列表
         List<TaskPo> localTaskList = getFileContext(LOCALTASKPATH);
         //没有新的就不用拉了
-        if(Strings.isNotBlank(activeTaskList)){
+        if (Strings.isNotBlank(activeTaskList)) {
             //        activeTaskList = "[1,2,3,4]";
             List<Integer> activeTaskIdList = JSON.parseArray(activeTaskList, Integer.class);
             //        String localTaskPath = "./localTasks.txt";
@@ -93,7 +98,6 @@ public class ScheduledProbeTaskService {
 
             try {
                 // 检查目标文件是否存在，不存在则创建
-
 
 
                 //            update probe_po set task_list = '[1,2,3,4]', active_task_list = '[3,5]' where probe_id = '1'
@@ -106,13 +110,13 @@ public class ScheduledProbeTaskService {
                 //这里最好在mapper写个按id列表查询
                 for (Integer activeId : activeTaskIdList) {
                     TaskPo taskPo = taskPoMapper.selectByPrimaryKey(activeId);
-                    if(!Objects.isNull(taskPo)){
+                    if (!Objects.isNull(taskPo)) {
                         localTaskList.add(taskPo);
                     }
                 }
 
                 //更新probe列表
-                List<Integer> newProbetaskList=
+                List<Integer> newProbetaskList =
                         localTaskList.stream().map(TaskPo::getTaskId).collect(Collectors.toList());
 
                 String probeTaskList = JSON.toJSONString(newProbetaskList);
@@ -152,9 +156,9 @@ public class ScheduledProbeTaskService {
     @Async
     public void runTasks(List<TaskPo> taskPoList) throws HarReaderException, InterruptedException {
         int size = taskPoList.size();
-        if(size!=0){
+        if (size != 0) {
             int cycle = 60000 / size;
-            for(TaskPo task : taskPoList){
+            for (TaskPo task : taskPoList) {
                 runTask(task);
                 sleep(cycle);
             }
@@ -165,7 +169,7 @@ public class ScheduledProbeTaskService {
     @Async
     public void runTask(TaskPo task) throws HarReaderException {
         File localLogs = new File(LOCALLOGPATH);
-            // 检查目标文件是否存在，不存在则创建
+        // 检查目标文件是否存在，不存在则创建
         if (!localLogs.exists()) {
             localLogs.mkdir();// 创建目标文件
         }
@@ -186,7 +190,7 @@ public class ScheduledProbeTaskService {
 
         Long now = System.currentTimeMillis();
 
-        String thisLogPath = thisTaskPath +"/" + now.toString();
+        String thisLogPath = thisTaskPath + "/" + now.toString();
 
         File thisLogDir = new File(thisLogPath);
 
@@ -196,9 +200,9 @@ public class ScheduledProbeTaskService {
 
 
         //执行脚本
-        String commandStr = "node puppeteer.js "+task.getTaskUrl()+" "+thisLogPath + " " + TIMEOUT;
+        String commandStr = "node puppeteer.js " + task.getTaskUrl() + " " + thisLogPath + " " + TIMEOUT;
 
-        if(Strings.isNotBlank(task.getTaskUrl())){
+        if (Strings.isNotBlank(task.getTaskUrl())) {
             exeCmd(commandStr);
             LogPo logPo = new LogPo();
             logPo.setHasHandled(0);
@@ -208,18 +212,17 @@ public class ScheduledProbeTaskService {
 
 
             //传到远程服务器上
-            commandStr = "sh " + "./pushLog.sh " + REMOTEPATH + " " + PROBEID + " " +String.valueOf(task.getTaskId()) + " " +now.toString();
+            commandStr = "sh " + "./pushLog.sh " + REMOTEPATH + " " + PROBEID + " " + String.valueOf(task.getTaskId()) + " " + now.toString();
             exeCmd(commandStr);
-            logPo.setScriptOutputPath(REMOTEPATH+":"+"~/web-monitor/probeLogs/"+PROBEID + "/" +String.valueOf(task.getTaskId()) + "/" +now.toString());
+            logPo.setScriptOutputPath(REMOTEPATH + ":" + "~/web-monitor/probeLogs/" + PROBEID + "/" + String.valueOf(task.getTaskId()) + "/" + now.toString());
             //解析har文件
-            resolveHar(thisLogPath + "/" + "network.har",logPo);
+            resolveHar(thisLogPath + "/" + "network.har", logPo);
 
             //System.out.println(logPo.toString());
 
             //日志插入数据库
             logPoMapper.insertSelective(logPo);
         }
-
 
 
         //        harReader = new HarReader(new DefaultMapperFactory());
@@ -251,16 +254,16 @@ public class ScheduledProbeTaskService {
         Integer totalNNum = entries.size();
         Integer okNum =
                 Math.toIntExact(entries.stream().filter(entry -> entry.getResponse().getStatus() == 200).count());
-        for(HarEntry harEntry : entries){
+        for (HarEntry harEntry : entries) {
             Long curEndTime = harEntry.getStartedDateTime().getTime() + harEntry.getTime();
-            if(curEndTime > endTime){
+            if (curEndTime > endTime) {
                 endTime = curEndTime;
             }
         }
 
         Long totalTime = endTime - startedDateTime;
 
-        Double availability = (double)(int)okNum / totalNNum;
+        Double availability = (double) (int) okNum / totalNNum;
 
         log.setTotalTime(totalTime);
         log.setAvailability(availability);
@@ -280,11 +283,8 @@ public class ScheduledProbeTaskService {
             System.out.println(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            if (br != null)
-            {
+        } finally {
+            if (br != null) {
                 try {
                     br.close();
                 } catch (Exception e) {
@@ -296,12 +296,12 @@ public class ScheduledProbeTaskService {
 
     //从文件按行读取任务列表
     public static List<TaskPo> getFileContext(String path) throws Exception {
-        FileReader fileReader =new FileReader(path);
-        BufferedReader bufferedReader =new BufferedReader(fileReader);
-        List<String> list =new ArrayList<>();
-        String str=null;
-        while((str=bufferedReader.readLine())!=null) {
-            if(str.trim().length()>2) {
+        FileReader fileReader = new FileReader(path);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        List<String> list = new ArrayList<>();
+        String str = null;
+        while ((str = bufferedReader.readLine()) != null) {
+            if (str.trim().length() > 2) {
                 list.add(str);
             }
         }
@@ -317,16 +317,23 @@ public class ScheduledProbeTaskService {
         }
         List<String> strings = taskPoList.stream().map(JSONObject::toJSONString).collect(Collectors.toList());
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-        if(System.getProperty("os.name").equals("Windows")){
-            for (String l:strings){
+        if (System.getProperty("os.name").equals("Windows")) {
+            for (String l : strings) {
                 writer.write(l + "\r\n");
             }
-        }else{
-            for (String l:strings){
+        } else {
+            for (String l : strings) {
                 writer.write(l + "\n");
             }
         }
         writer.close();
     }
 
+    public static void main(String[] args) {
+        String path = "./locallogs/1/14/1642682157064/network.har";
+        File file = new File(".");
+        for(File f:file.listFiles()){
+            System.out.println(f.getAbsoluteFile());
+        }
+    }
 }
